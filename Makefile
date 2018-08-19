@@ -98,7 +98,7 @@ endif
 # Source Files
 #===================================
 SRC_FILES += src/main.c
-SRC_FILES += src/card.c
+# SRC_FILES += src/card.c
 
 #==============================================================================
 # Primary target
