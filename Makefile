@@ -13,6 +13,7 @@ SRCDIR			= ./src
 ifeq "$(strip $(SRCDIR))" ""
 	SRCDIR		= .
 endif
+PRJDIR			= ./_project
 
 #===================================
 # gcc : Exe
@@ -27,6 +28,7 @@ TOUCH	= "touch"
 CMP		= "cmp"
 TEE		= "tee"
 MV		= "mv"
+DOXYGEN	= "doxygen"
 
 #==============================================================================
 # Compile Options(Common)
@@ -137,4 +139,10 @@ install_bin:
 #===================================
 run:
 	$(INSTALL_BIN)/$(TARGET) ${ARG}
+
+#===================================
+# Doxygen
+#===================================
+doxygen:	
+	$(DOXYGEN) $(PRJDIR)/Doxyfile
 
