@@ -4,5 +4,11 @@
 			"path": "/Users/haruki/systena/programming2/poker"
 		}
 	],
-	"settings": {}
+	"settings": {
+		"files.associations": {
+			"common.h": "c",
+			"card.h": "c",
+			"time.h": "c"
+		}
+	}
 }
