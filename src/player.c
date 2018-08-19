@@ -1,27 +1,25 @@
 /**
- * @brief Systemクラス
+ * @brief Playerクラス
  * 
- * @file system.c
+ * @file player.c
  */
 
 /************************************************************************************************/
 /*	インクルードファイル記載																	*/
 /************************************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include "system.h"
+#include <string.h>
+#include "player.h"
 
 /************************************************************************************************/
 /*	クラス内デバッグ設定																		*/
 /************************************************************************************************/
-#ifdef CONFIG_ENABLE_DEBUG_CLASS_SYSTEM
+#ifdef CONFIG_ENABLE_DEBUG_CLASS_PLAYER
 #define M_ERROR(...)		M_DEBUG_ERROR(__VA_ARGS__)
 #define M_ENTRY(...)		M_DEBUG_ENTRY(__VA_ARGS__)
 #else
 #define M_ERROR(...)		M_DEBUG_ERROR(__VA_ARGS__)
 #define M_ENTRY(...)
-#endif /* CONFIG_ENABLE_DEBUG_CLASS_SYSTEM */
+#endif /* CONFIG_ENABLE_DEBUG_CLASS_PLAYER */
 
 /************************************************************************************************/
 /*	定義値																						*/
@@ -30,6 +28,10 @@
 /************************************************************************************************/
 /*	クラス内参照メンバー変数																	*/
 /************************************************************************************************/
+/** @var 	s_handCard
+ *  @brief	手札情報
+*/
+HAND_CARD s_handCard = {};
 
 /************************************************************************************************/
 /*	内部関数プロトタイプ宣言																	*/
@@ -39,40 +41,39 @@
 /*	外部公開関数																				*/
 /************************************************************************************************/
 /**
- * @brief	乱数生成初期化
- * @note	
- * @attention
- * system_random_init()呼び出し前に一度呼び出ししてください
+ * @brief	カードを1枚もらう
+ * @note	カード情報を取得する
  *
+ * @param[in]	id	カード情報
  */
-void system_random_init(void)
+void player_receiveCard(CID id)
 {
 	M_ENTRY();
-	srand((unsigned)time(NULL));
+	if (s_handCard.num >= D_POKER_HAND_CARD_MAX) {
+		M_ERROR("maximum number of cards.\n");
+		return;
+	}
+	s_handCard.id[s_handCard.num] = id;
+	s_handCard.num ++;
 }
 
 /**
- * @brief	乱数生成
- * @note	int型の乱数を出力します
- * @attention
- * system_random_init()呼び出し後に呼び出してください
+ * @brief	手札を出す
+ * @note	手札情報を出力する
  *
+ * @return
+ * |値 | 説明 |
+ * |---|------|
+ * | HAND_CARD |手札情報|
  */
-int system_random(void)
+HAND_CARD player_handCard(void)
 {
 	M_ENTRY();
-	int r = rand();
-	return r;
+	HAND_CARD handCard = s_handCard;
+	memset(&s_handCard, 0, sizeof(s_handCard));
+	return handCard;
 }
 
-/**
- * @brief	画面クリア
- * @note	OSごとに制御を分ける
- * @attention
- * 
- *
- */
-void system_clear(void)
-{
-	system("clear");
-}
+/************************************************************************************************/
+/*	内部関数																					*/
+/************************************************************************************************/

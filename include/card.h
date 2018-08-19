@@ -37,6 +37,18 @@
 #define D_CARD_MARK_JOKER_S				"Joker"
 /*@}*/
 
+/** @def
+ * カードIDからカード番号を取得
+ */
+#define M_CARD_NUMBER_ID(cid)		(cid & 0x0F)
+/** @def
+ * カードIDからマーク種別を取得
+ */
+#define M_CARD_MARK_ID(cid)			(cid & 0xF0)
+
+// #define M_CARD_NUMBER(cid)			((cid & 0x0F) + 1)
+// #define M_CARD_MARK(cid)			debug_print_mark(cid)
+
 /************************************************************************************************/
 /*	構造体定義																					*/
 /************************************************************************************************/

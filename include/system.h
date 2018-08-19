@@ -41,6 +41,13 @@ void system_random_init(void);
  */
 int system_random(void);
 
+/**
+ * @brief	画面クリア
+ * @note	OSごとに制御を分ける
+ * @attention
+ * 
+ */
+void system_clear(void);
 
 
 

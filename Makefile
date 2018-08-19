@@ -100,6 +100,10 @@ endif
 SRC_FILES += src/main.c
 SRC_FILES += src/card.c
 SRC_FILES += src/system.c
+SRC_FILES += src/player.c
+SRC_FILES += src/poker.c
+SRC_FILES += src/game.c
+SRC_FILES += src/ui.c
 
 #==============================================================================
 # Primary target
