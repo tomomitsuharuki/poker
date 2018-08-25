@@ -13,9 +13,9 @@
 /************************************************************************************************/
 /*	クラス内デバッグ設定																		*/
 /************************************************************************************************/
-#define M_ERROR(...)		M_DEBUG_ERROR(D_DEBUG_CLASS_MAIN, __VA_ARGS__)
-#define M_ENTRY(...)		M_DEBUG_ENTRY(D_DEBUG_CLASS_MAIN, __VA_ARGS__)
-#define M_INFO(...)			M_DEBUG_INFO(D_DEBUG_CLASS_MAIN, __VA_ARGS__)
+#define M_ERROR(format, ...)		M_DEBUG_ERROR(D_DEBUG_CLASS_MAIN, format, ## __VA_ARGS__)
+#define M_ENTRY(format, ...)		M_DEBUG_ENTRY(D_DEBUG_CLASS_MAIN, format, ## __VA_ARGS__)
+#define M_INFO(format, ...)			M_DEBUG_INFO(D_DEBUG_CLASS_MAIN, format, ## __VA_ARGS__)
 
 /************************************************************************************************/
 /*	main関数																					*/

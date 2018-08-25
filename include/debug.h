@@ -32,18 +32,18 @@ void debug_printf(const char *format, ...);
 /** @def
  * エラー出力マクロ
  */
-#define M_DEBUG_ERROR(classId, ...) \
+#define M_DEBUG_ERROR(classId, format, ...) \
 { \
-	debug_printf("[ERROR:%d:%s(%s)] " __VA_ARGS__, __LINE__, __FUNCTION__, __FILE__); \
+	debug_printf("[ERROR:%d:%s(%s)] "format"\n", __LINE__, __FUNCTION__, __FILE__, ## __VA_ARGS__); \
 }
 
 /** @def
  * エントリートレースマクロ
  */
-#define M_DEBUG_ENTRY(classId, ...) \
+#define M_DEBUG_ENTRY(classId, format, ...) \
 { \
 	if (classId == E_DEBUG_ENABLE) { \
-		debug_printf("[ENTRY:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
+		debug_printf("[ENTRY:%d:%s(%s)] "format"\n", __LINE__, __FUNCTION__, __FILE__, ## __VA_ARGS__); \
 	} \
 }
 

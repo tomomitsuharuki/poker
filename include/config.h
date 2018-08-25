@@ -47,9 +47,9 @@ typedef enum {
 	#include "debug.h"
 #else /* CONFIG_ENABLE_DEBUG_PRINT */
 	/* デバッグ出力マクロ無効化 */
-	#define M_DEBUG_ERROR(classId, ...)
-	#define M_DEBUG_ENTRY(classId, ...)
-	#define M_DEBUG_INFO(classId, ...)
+	#define M_DEBUG_ERROR(classId, format, ...)
+	#define M_DEBUG_ENTRY(classId, format, ...)
+	#define M_DEBUG_INFO(classId, format, ...)
 #endif /* CONFIG_ENABLE_DEBUG_PRINT */
 
 #endif /* __CONFIG_H__ */
