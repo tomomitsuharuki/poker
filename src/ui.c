@@ -26,6 +26,7 @@
 /*	定義値																						*/
 /************************************************************************************************/
 #define D_UI_CONSOLE_BUFFER			(256)
+#define D_UI_CONSOLE_IN_ERROR		(-1)
 #define D_UI_BASE_10				(10)
 
 /************************************************************************************************/
@@ -37,7 +38,8 @@
 /************************************************************************************************/
 static void ui_showCard(CID id, U1 index);
 static void ui_showHand(POKER_HAND pokerHand);
-static void ui_line(C1 *str);
+static void ui_out(C1 *str);
+static E_UI_SELECT_CODE ui_in(C1 *str);
 
 /************************************************************************************************/
 /*	外部公開関数																				*/
@@ -62,31 +64,60 @@ void ui_showMenu(E_UI_MENU menuId)
 	ui_clear();
 
 	if (menuId == E_UI_MENU_MAIN) {
-		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-		ui_line("|                                                             |");
-		ui_line("|    Main Menu                                                |");
-		ui_line("|                                                             |");
-		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-		ui_line("");
-		ui_line("< Select Mode >");
-		ui_line("  <1> Rookie1 Game Mode");
-		ui_line("  <2> Rookie2 Game Mode");
-		ui_line("  <3> Middle Game Mode");
-		ui_line("  <4> Legend Game Mode");
-		ui_line("  <other> Quit");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                             |\n");
+		ui_out("|    Main Menu                                                |\n");
+		ui_out("|                                                             |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("\n");
+		ui_out("< Select Mode >\n");
+		ui_out("  <1> Rookie1 Game Mode\n");
+		ui_out("  <2> Rookie2 Game Mode\n");
+		ui_out("  <3> Middle Game Mode\n");
+		ui_out("  <4> Legend Game Mode\n");
+		ui_out("  <other> Quit\n");
 	} else if (menuId == E_UI_MENU_ROOKIE) {
-		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-		ui_line("|                                                             |");
-		ui_line("|    Rookie Menu                                              |");
-		ui_line("|                                                             |");
-		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-		ui_line("");
-		ui_line("< Do you accept 5 cards? >");
-		ui_line("  <1> Yes");
-		ui_line("  <other> Quit");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                             |\n");
+		ui_out("|    Rookie Menu                                              |\n");
+		ui_out("|                                                             |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("\n");
+		ui_out("< Do you accept 5 cards? >\n");
+		ui_out("  <1> Yes\n");
+		ui_out("  <other> Quit\n");
+	} else if (menuId == E_UI_MENU_ROOKIE2) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                             |\n");
+		ui_out("|    Rookie2 Menu(Single Poker)                               |\n");
+		ui_out("|                                                             |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("\n");
+		ui_out("< Do you accept 5 cards? >\n");
+		ui_out("  <1> Yes\n");
+		ui_out("  <other> Quit\n");
 	} else {
 		M_ERROR("menuId Error:%d\n",menuId);
 	}
+}
+
+/**
+ * @brief	手札を表示する
+ * @note	
+ *
+ * @param[in]	pokerHand	手札情報
+ */
+void ui_showHandCard(HAND_CARD handCard)
+{
+	M_ENTRY();
+	ui_out("\n");
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("  <#> [    Mark :Number]\n");
+	U1 i = 0;
+	for (i = 0; i < handCard.num; i++) {
+		ui_showCard(handCard.id[i], i);
+	}
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
 }
 
 /**
@@ -99,17 +130,17 @@ void ui_showMenu(E_UI_MENU menuId)
 void ui_showPokerResult(HAND_CARD handCard, POKER_HAND pokerHand)
 {
 	M_ENTRY();
-	ui_line("");
-	ui_line("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-	ui_line("  Result  ");
-	ui_line("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*");
-	ui_line("");
+	ui_out("\n");
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("  Result  \n");
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("\n");
 
 	U1 i = 0;
 	for (i = 0; i < handCard.num; i++) {
 		ui_showCard(handCard.id[i], i);
 	}
-	ui_line("");
+	ui_out("\n");
 	ui_showHand(pokerHand);
 }
 
@@ -122,10 +153,45 @@ void ui_showPokerResult(HAND_CARD handCard, POKER_HAND pokerHand)
 E_UI_SELECT_CODE ui_getSelectCode(void)
 {
 	M_ENTRY();
+	return ui_in("Input select number ==> ");
+}
+
+/**
+ * @brief	なにか入力してください。
+ * @note	
+ */
+void ui_pleaseEnterSomething(void)
+{
+	char buffer[D_UI_CONSOLE_BUFFER] = {};
+	ui_out("\n\nPlease enter something.....");
+	fgets(buffer, D_UI_CONSOLE_BUFFER, stdin);
+}
+
+/************************************************************************************************/
+/*	内部関数																					*/
+/************************************************************************************************/
+/**
+ * @brief	コンソール出力
+ * @note	
+ */
+static void ui_out(C1 *str)
+{
+	printf("%s", str);
+}
+
+/**
+ * @brief	コンソール入力
+ * @note	str文字列出力後、ユーザー入力待ち状態
+ *
+ * @param[in]	str	出力文字列
+ * @return	入力したコード
+ */
+static E_UI_SELECT_CODE ui_in(C1 *str)
+{
 	E_UI_SELECT_CODE selectCode = E_UI_ERROR;
 	char buffer[D_UI_CONSOLE_BUFFER] = {};
 
-	printf("Input select number ==> ");
+	ui_out(str);
 	if (fgets(buffer, D_UI_CONSOLE_BUFFER, stdin) == NULL) {
 		M_ERROR("fgets is NULL\n");
 		return selectCode;
@@ -158,30 +224,6 @@ E_UI_SELECT_CODE ui_getSelectCode(void)
 	}
 
 	return selectCode;
-}
-
-/**
- * @brief	なにか入力してください。
- * @note	
- */
-void ui_pleaseEnterSomething(void)
-{
-	char buffer[D_UI_CONSOLE_BUFFER] = {};
-	printf("\n\nPlease enter something.....");
-	fgets(buffer, D_UI_CONSOLE_BUFFER, stdin);
-}
-
-
-/************************************************************************************************/
-/*	内部関数																					*/
-/************************************************************************************************/
-/**
- * @brief	1行分表示
- * @note	
- */
-static void ui_line(C1 *str)
-{
-	printf("%s\n", str);	
 }
 
 /**
@@ -226,9 +268,9 @@ static void ui_showCard(CID id, U1 index)
 
 	// printf("  (0x%x)\n", id);
 	if (mark == D_CARD_MARK_JOKER) {
-		printf("  <%d> [%8s]\n", index, strMark[markIndex]);
+		printf("  <%d> [%8s :--    ]\n", index, strMark[markIndex]);
 	} else {
-		printf("  <%d> [%8s:%s]\n", index, strMark[markIndex], strNumber[number]);
+		printf("  <%d> [%8s :%s    ]\n", index, strMark[markIndex], strNumber[number]);
 	}
 }
 

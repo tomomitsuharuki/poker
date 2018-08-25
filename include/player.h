@@ -54,13 +54,8 @@ HAND_CARD player_handCard(void);
 /**
  * @brief	手札を戻す
  * @note	手札情報を初期化する
- *
- * @return
- * |値 | 説明 |
- * |---|------|
- * | HAND_CARD |手札情報|
  */
-HAND_CARD player_restoreCard(void);
+void player_restoreCard(void);
 
 
 #endif /* __PLAYER_H__ */

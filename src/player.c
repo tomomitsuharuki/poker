@@ -66,9 +66,16 @@ void player_receiveCard(CID id)
 HAND_CARD player_handCard(void)
 {
 	M_ENTRY();
-	HAND_CARD handCard = s_handCard;
+	return s_handCard;
+}
+
+/**
+ * @brief	手札を戻す
+ * @note	手札情報を初期化する
+ */
+void player_restoreCard(void)
+{
 	memset(&s_handCard, 0, sizeof(s_handCard));
-	return handCard;
 }
 
 /************************************************************************************************/

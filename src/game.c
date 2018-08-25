@@ -162,6 +162,8 @@ static E_BOOL game_executeRookie(void)
 		/* 結果を表示する */
 		ui_showPokerResult(handCard, judgeResult);
 		ui_pleaseEnterSomething();
+		/* 手札を戻す */
+		player_restoreCard();
 	}
 	return continueGame;
 }
@@ -201,10 +203,16 @@ static E_BOOL game_executeRookiePlus(void)
 		player_receiveCard(card_deal());
 		/* 手札を出す */
 		HAND_CARD handCard = player_handCard();
-		POKER_HAND judgeResult = poker_judgment(handCard);
-		/* 結果を表示する */
-		ui_showPokerResult(handCard, judgeResult);
+		ui_showHandCard(handCard);
+
+
+
+		// POKER_HAND judgeResult = poker_judgment(handCard);
+		// /* 結果を表示する */
+		// ui_showPokerResult(handCard, judgeResult);
 		ui_pleaseEnterSomething();
+		/* 手札を戻す */
+		player_restoreCard();
 	}
 	return continueGame;
 }

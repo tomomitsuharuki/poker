@@ -77,6 +77,14 @@ E_UI_SELECT_CODE ui_getSelectCode(void);
 void ui_pleaseEnterSomething(void);
 
 /**
+ * @brief	手札を表示する
+ * @note	
+ *
+ * @param[in]	pokerHand	手札情報
+ */
+void ui_showHandCard(HAND_CARD handCard);
+
+/**
  * @brief	ポーカーの役を表示する
  * @note	
  *
