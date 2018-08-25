@@ -8,18 +8,15 @@
 /*	インクルードファイル記載																	*/
 /************************************************************************************************/
 #include <string.h>
+#include "common.h"
 #include "player.h"
 
 /************************************************************************************************/
 /*	クラス内デバッグ設定																		*/
 /************************************************************************************************/
-#ifdef CONFIG_ENABLE_DEBUG_CLASS_PLAYER
-#define M_ERROR(...)		M_DEBUG_ERROR(__VA_ARGS__)
-#define M_ENTRY(...)		M_DEBUG_ENTRY(__VA_ARGS__)
-#else
-#define M_ERROR(...)		M_DEBUG_ERROR(__VA_ARGS__)
-#define M_ENTRY(...)
-#endif /* CONFIG_ENABLE_DEBUG_CLASS_PLAYER */
+#define M_ERROR(...)		M_DEBUG_ERROR(D_DEBUG_CLASS_PLAYER, __VA_ARGS__)
+#define M_ENTRY(...)		M_DEBUG_ENTRY(D_DEBUG_CLASS_PLAYER, __VA_ARGS__)
+#define M_INFO(...)			M_DEBUG_INFO(D_DEBUG_CLASS_PLAYER, __VA_ARGS__)
 
 /************************************************************************************************/
 /*	定義値																						*/

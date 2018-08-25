@@ -7,10 +7,6 @@
 #define __DEBUG_H__
 
 /************************************************************************************************/
-/*	インクルードファイル記載																	*/
-/************************************************************************************************/
-
-/************************************************************************************************/
 /*	定義値																						*/
 /************************************************************************************************/
 
@@ -23,10 +19,10 @@
 /************************************************************************************************/
 
 /**
- * @brief	カードを1枚もらう
- * @note	カード情報を取得する
+ * @brief	デバッグ出力
+ * @note	printfラッパー
  *
- * @param[in]	id	カード情報
+ * @param[in]	出力文字列
  */
 void debug_printf(const char *format, ...);
 
@@ -36,7 +32,7 @@ void debug_printf(const char *format, ...);
 /** @def
  * エラー出力マクロ
  */
-#define M_DEBUG_ERROR(...) \
+#define M_DEBUG_ERROR(classId, ...) \
 { \
 	debug_printf("[ERROR:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
 }
@@ -44,9 +40,21 @@ void debug_printf(const char *format, ...);
 /** @def
  * エントリートレースマクロ
  */
-#define M_DEBUG_ENTRY(...) \
+#define M_DEBUG_ENTRY(classId, ...) \
 { \
-	debug_printf("[ENTRY:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
+	if (classId == E_DEBUG_ENABLE) { \
+		debug_printf("[ENTRY:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
+	} \
+}
+
+/** @def
+ * デバッグ出力マクロ
+ */
+#define M_DEBUG_INFO(classId, ...) \
+{ \
+	if (classId == E_DEBUG_ENABLE) { \
+		debug_printf(classId, "[INFO:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
+	} \
 }
 
 /************************************************************************************************/
