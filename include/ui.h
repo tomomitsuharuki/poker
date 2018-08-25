@@ -21,8 +21,8 @@
 /*	構造体定義																					*/
 /************************************************************************************************/
 /**
- * @enum	E_BOOL
- * @brief	Bool型
+ * @enum	E_UI_SELECT_CODE
+ * @brief	ユーザー入力選択ID
  */
 typedef enum {
 	E_UI_ERROR = 0,
@@ -35,6 +35,17 @@ typedef enum {
 	E_UI_RETURN = 0xFF,
 } E_UI_SELECT_CODE;
 
+/**
+ * @enum	E_UI_MENU
+ * @brief	メニュー画面
+ */
+typedef enum {
+	E_UI_MENU_MAIN,			/**< メインメニュー */
+	E_UI_MENU_ROOKIE,		/**< ルーキーメニュー */
+	E_UI_MENU_ROOKIE2,		/**< ルーキー2メニュー */
+	E_UI_MENU_MIDDLE,		/**< ミドルメニュー */
+	E_UI_MENU_LEGEND,		/**< レジェンドメニュー */
+} E_UI_MENU;
 
 /************************************************************************************************/
 /*	関数プロトタイプ宣言																		*/
@@ -46,10 +57,10 @@ typedef enum {
 void ui_clear(void);
 
 /**
- * @brief	メインメニューを表示する
+ * @brief	メニューを表示する
  * @note	コンソール向け
  */
-void ui_showMenuMain(void);
+void ui_showMenu(E_UI_MENU menuId);
 
 /**
  * @brief	ユーザーが入力したコードを取得する
@@ -64,13 +75,6 @@ E_UI_SELECT_CODE ui_getSelectCode(void);
  * @note	
  */
 void ui_pleaseEnterSomething(void);
-
-
-/**
- * @brief	ルーキーメニューを表示する
- * @note	コンソール向け
- */
-void ui_showMenuRookie(void);
 
 /**
  * @brief	ポーカーの役を表示する

@@ -34,7 +34,7 @@ void debug_printf(const char *format, ...);
  */
 #define M_DEBUG_ERROR(classId, ...) \
 { \
-	debug_printf("[ERROR:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
+	debug_printf("[ERROR:%d:%s(%s)] " __VA_ARGS__, __LINE__, __FUNCTION__, __FILE__); \
 }
 
 /** @def
@@ -50,10 +50,10 @@ void debug_printf(const char *format, ...);
 /** @def
  * デバッグ出力マクロ
  */
-#define M_DEBUG_INFO(classId, ...) \
+#define M_DEBUG_INFO(classId, format, ...) \
 { \
 	if (classId == E_DEBUG_ENABLE) { \
-		debug_printf(classId, "[INFO:%d:%s(%s)] " __VA_ARGS__ "\n", __LINE__, __FUNCTION__, __FILE__); \
+		debug_printf("[INFO:%d:%s(%s)] "format"\n", __LINE__, __FUNCTION__, __FILE__, ## __VA_ARGS__); \
 	} \
 }
 

@@ -101,7 +101,7 @@ static E_MAIN_GAME_TYPE game_selectMainGame(void)
 	M_ENTRY();
 	E_MAIN_GAME_TYPE gameType = E_MAIN_GAME_QUIT;
 
-	ui_showMenuMain();
+	ui_showMenu(E_UI_MENU_MAIN);
 	E_UI_SELECT_CODE selectCode = ui_getSelectCode();	
 	switch (selectCode) {
 	case E_UI_1:
@@ -138,7 +138,7 @@ static E_BOOL game_executeRookie(void)
 	E_BOOL continueGame = E_TRUE;
 	while(continueGame == E_TRUE) {
 		/* メニュー表示 */
-		ui_showMenuRookie();
+		ui_showMenu(E_UI_MENU_ROOKIE);
 		E_UI_SELECT_CODE selectCode = ui_getSelectCode();
 		if (selectCode != E_UI_1) {
 			continueGame = E_FALSE;
@@ -181,7 +181,7 @@ static E_BOOL game_executeRookiePlus(void)
 	E_BOOL continueGame = E_TRUE;
 	while(continueGame == E_TRUE) {
 		/* メニュー表示 */
-		ui_showMenuRookie();
+		ui_showMenu(E_UI_MENU_ROOKIE2);
 		E_UI_SELECT_CODE selectCode = ui_getSelectCode();
 		if (selectCode != E_UI_1) {
 			continueGame = E_FALSE;

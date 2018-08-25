@@ -20,7 +20,7 @@
 /************************************************************************************************/
 #define M_ERROR(...)		M_DEBUG_ERROR(D_DEBUG_CLASS_UI, __VA_ARGS__)
 #define M_ENTRY(...)		M_DEBUG_ENTRY(D_DEBUG_CLASS_UI, __VA_ARGS__)
-#define M_INFO(...)			M_DEBUG_INFO(D_DEBUG_CLASS_UI, __VA_ARGS__)
+#define M_INFO(format, ...)			M_DEBUG_INFO(D_DEBUG_CLASS_UI, format, ## __VA_ARGS__)
 
 /************************************************************************************************/
 /*	定義値																						*/
@@ -53,44 +53,42 @@ void ui_clear(void)
 }
 
 /**
- * @brief	メインメニューを表示する
+ * @brief	メニューを表示する
  * @note	コンソール向け
  */
-void ui_showMenuMain(void)
+void ui_showMenu(E_UI_MENU menuId)
 {
 	M_ENTRY();
 	ui_clear();
-	ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-	ui_line("|                                                             |");
-	ui_line("|    Main Menu                                                |");
-	ui_line("|                                                             |");
-	ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-	ui_line("");
-	ui_line("< Select Mode >");
-	ui_line("  <1> Rookie1 Game Mode");
-	ui_line("  <2> Rookie2 Game Mode");
-	ui_line("  <3> Middle Game Mode");
-	ui_line("  <4> Legend Game Mode");
-	ui_line("  <other> Quit");
-}
 
-/**
- * @brief	ルーキーメニューを表示する
- * @note	コンソール向け
- */
-void ui_showMenuRookie(void)
-{
-	M_ENTRY();
-	ui_clear();
-	ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-	ui_line("|                                                             |");
-	ui_line("|    Rookie Menu                                              |");
-	ui_line("|                                                             |");
-	ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
-	ui_line("");
-	ui_line("< Do you accept 5 cards? >");
-	ui_line("  <1> Yes");
-	ui_line("  <other> Quit");
+	if (menuId == E_UI_MENU_MAIN) {
+		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
+		ui_line("|                                                             |");
+		ui_line("|    Main Menu                                                |");
+		ui_line("|                                                             |");
+		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
+		ui_line("");
+		ui_line("< Select Mode >");
+		ui_line("  <1> Rookie1 Game Mode");
+		ui_line("  <2> Rookie2 Game Mode");
+		ui_line("  <3> Middle Game Mode");
+		ui_line("  <4> Legend Game Mode");
+		ui_line("  <other> Quit");
+	} else if (menuId == E_UI_MENU_ROOKIE) {
+		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
+		ui_line("|                                                             |");
+		ui_line("|    Rookie Menu                                              |");
+		ui_line("|                                                             |");
+		ui_line("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/");
+		ui_line("");
+		ui_line("< Do you accept 5 cards? >");
+		ui_line("  <1> Yes");
+		ui_line("  <other> Quit");
+	} else {
+		M_ERROR("menuId Error:%d\n",menuId);
+		M_INFO("test");
+		M_INFO("test%d",2);
+	}
 }
 
 /**
@@ -131,7 +129,7 @@ E_UI_SELECT_CODE ui_getSelectCode(void)
 
 	printf("Input select number ==> ");
 	if (fgets(buffer, D_UI_CONSOLE_BUFFER, stdin) == NULL) {
-		M_ERROR("fgets is NULL");
+		M_ERROR("fgets is NULL\n");
 		return selectCode;
 	}
 	if (buffer[0] == '\n') {

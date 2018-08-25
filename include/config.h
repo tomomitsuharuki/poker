@@ -36,7 +36,7 @@ typedef enum {
 #define D_DEBUG_CLASS_PLAYER				(E_DEBUG_ENABLE)
 #define D_DEBUG_CLASS_POKER					(E_DEBUG_ENABLE)
 #define D_DEBUG_CLASS_GAME					(E_DEBUG_ENABLE)
-#define D_DEBUG_CLASS_UI					(E_DEBUG_ENABLE)
+#define D_DEBUG_CLASS_UI					(E_DEBUG_DISABLE)
 /*@}*/
 
 /************************************************************************************************/

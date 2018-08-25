@@ -467,7 +467,7 @@ static POKER_HAND poker_judgePairWithJoker(HAND_CARD card)
 	if (matchCount >= 6) {
 		judgeResult |= D_POKER_HAND_FIVE_CARD;
 	} else if (matchCount >= 4) {
-		M_ERROR("Judge error.");
+		M_ERROR("Judge error.\n");
 		judgeResult |= D_POKER_HAND_BUHI;
 	} else if (matchCount == 3) {
 		judgeResult |= D_POKER_HAND_FOUR_CARD;
