@@ -43,6 +43,18 @@ E_BOOL poker_validCard(HAND_CARD card);
  */
 POKER_HAND poker_judgment(HAND_CARD card);
 
+/**
+ * @brief	ポーカーの勝敗を判定する
+ * @note	役を判定して勝敗結果を出力する
+ *
+ * @param[in]	card1	手札情報
+ * @param[in]	card2	手札情報
+ * @return
+ * |値 | 説明 |
+ * |---|------|
+ * | E_POKER_COMP_RESULT |勝敗情報|
+ */
+E_POKER_COMP_RESULT poker_judgmentComp(HAND_CARD card1, HAND_CARD card2);
 
 
 #endif /* __POKER_H__ */

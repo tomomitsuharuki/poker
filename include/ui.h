@@ -9,9 +9,9 @@
 /************************************************************************************************/
 /*	インクルードファイル記載																	*/
 /************************************************************************************************/
-#include "common.h"
 #include "card.h"
 #include "player.h"
+#include "poker.h"
 
 /************************************************************************************************/
 /*	定義値																						*/
@@ -20,43 +20,6 @@
 /************************************************************************************************/
 /*	構造体定義																					*/
 /************************************************************************************************/
-/**
- * @enum	E_UI_SELECT_CODE
- * @brief	ユーザー入力選択ID
- */
-typedef enum {
-	E_UI_ERROR = 0,
-	E_UI_1 = 1,
-	E_UI_2,
-	E_UI_3,
-	E_UI_4,
-	E_UI_5,
-	E_UI_OTHER,
-	E_UI_RETURN = 0xFF,
-} E_UI_SELECT_CODE;
-
-/**
- * @enum	E_UI_MENU
- * @brief	メニュー画面
- */
-typedef enum {
-	E_UI_MENU_MAIN,			/**< メインメニュー */
-	E_UI_MENU_ROOKIE,		/**< ルーキーメニュー */
-	E_UI_MENU_MIDDLE1,		/**< ミドル1メニュー */
-	E_UI_MENU_MIDDLE2,		/**< ミドル2メニュー */
-	E_UI_MENU_MIDDLE3,		/**< ミドル3メニュー */
-	E_UI_MENU_LEGEND,		/**< レジェンドメニュー */
-} E_UI_MENU;
-
-/**
- * @enum	E_UI_MENU
- * @brief	メニュー画面
- */
-typedef enum {
-	E_UI_PLAYER_1,			/**< Player1 */
-	E_UI_PLAYER_2,			/**< Player2 */
-	E_UI_PLAYER_COM,		/**< COM */
-} E_UI_PLAYER;
 
 /************************************************************************************************/
 /*	関数プロトタイプ宣言																		*/
@@ -77,7 +40,7 @@ void ui_showMenuTitle(E_UI_MENU menuId);
  * @brief	サブタイトル（プレイヤー）を表示する
  * @note	コンソール向け
  */
-void ui_showSubTitle(E_UI_PLAYER subId);
+void ui_showSubTitle(E_PLAYER_MODE subId);
 
 /**
  * @brief	メニューを表示する
@@ -114,5 +77,22 @@ void ui_showHandCard(HAND_CARD handCard);
  * @param[in]	pokerHand	ポーカーの役
  */
 void ui_showPokerResult(POKER_HAND pokerHand);
+
+/**
+ * @brief	ポーカーの役を表示する
+ * @note	
+ *
+ * @param[in]	pokerHand1	ポーカーの役
+ * @param[in]	pokerHand2	ポーカーの役
+ * @param[in]	compResult	勝敗情報
+ */
+void ui_showPokerResult2(POKER_HAND pokerHand1, POKER_HAND pokerHand2, E_POKER_COMP_RESULT compResult);
+
+/**
+ * @brief	メッセージを表示する
+ * @note	
+ *
+ */
+void ui_showMessageSelectCard(void);
 
 #endif /* __UI_H__ */

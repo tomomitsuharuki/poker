@@ -67,6 +67,7 @@ static POKER_HAND poker_judgePair(HAND_CARD card);
 static POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card);
 static POKER_HAND poker_judgePairWithJoker(HAND_CARD card);
 static CID poker_totalId(HAND_CARD card);
+static E_POKER_COMP_RESULT poker_drawJudge(HAND_CARD card1, HAND_CARD card2);
 
 /************************************************************************************************/
 /*	外部公開関数																				*/
@@ -132,6 +133,31 @@ POKER_HAND poker_judgment(HAND_CARD card)
 	}
 
 	return judgeResult;
+}
+
+/**
+ * @brief	ポーカーの勝敗を判定する
+ * @note	役を判定して勝敗結果を出力する
+ *
+ * @param[in]	card1	手札情報
+ * @param[in]	card2	手札情報
+ * @return
+ * |値 | 説明 |
+ * |---|------|
+ * | POKER_HAND |判定結果の役情報|
+ */
+E_POKER_COMP_RESULT poker_judgmentComp(HAND_CARD card1, HAND_CARD card2)
+{
+	POKER_HAND judgeResult1 = poker_judgment(card1);
+	POKER_HAND judgeResult2 = poker_judgment(card2);
+
+	if (judgeResult1 < judgeResult2) {
+		return E_POKER_COMP_PLAYER1_WON;
+	} else if (judgeResult1 > judgeResult2) {
+		return E_POKER_COMP_PLAYER2_WON;
+	} else {
+		return poker_drawJudge(card1, card2);
+	}
 }
 
 /************************************************************************************************/
@@ -500,4 +526,24 @@ static CID poker_totalId(HAND_CARD card)
 		totalId += M_CARD_NUMBER_ID(card.id[0]);
 	}
 	return totalId;
+}
+
+/**
+ * @brief	ポーカーの勝敗を判定する
+ * @note	同じ役の場合
+ *
+ * @param[in]	card1	手札情報
+ * @param[in]	card2	手札情報
+ * @return
+ * |値 | 説明 |
+ * |---|------|
+ * | POKER_HAND |判定結果の役情報|
+ */
+static E_POKER_COMP_RESULT poker_drawJudge(HAND_CARD card1, HAND_CARD card2)
+{
+	/* Not support */
+	(void)card1;
+	(void)card2;
+	/* ごめんなさい。仕様ドロップします。 */
+	return E_POKER_COMP_DRAW;
 }

@@ -37,9 +37,73 @@ typedef U2					POKER_HAND;		/**< Pokerの役 */
  * @brief	Bool型
  */
 typedef enum {
-	E_TRUE = 0,
-	E_FALSE = 1,
+	E_FALSE = 0,			/**< False */
+	E_TRUE = 1,				/**< True */
 } E_BOOL;
+
+/**
+ * @enum	E_UI_SELECT_CODE
+ * @brief	ユーザー入力選択ID
+ */
+typedef enum {
+	E_UI_ERROR = 0,
+	E_UI_1 = 1,
+	E_UI_2,
+	E_UI_3,
+	E_UI_4,
+	E_UI_5,
+	E_UI_OTHER,
+	E_UI_RETURN = 0xFF,
+} E_UI_SELECT_CODE;
+
+/**
+ * @enum	E_UI_MENU
+ * @brief	メニュー画面
+ */
+typedef enum {
+	E_UI_MENU_MAIN,			/**< メインメニュー */
+	E_UI_MENU_ROOKIE,		/**< ルーキーメニュー */
+	E_UI_MENU_MIDDLE1,		/**< ミドル1メニュー */
+	E_UI_MENU_MIDDLE2,		/**< ミドル2メニュー */
+	E_UI_MENU_MIDDLE3,		/**< ミドル3メニュー */
+	E_UI_MENU_LEGEND,		/**< レジェンドメニュー */
+} E_UI_MENU;
+
+/**
+ * @enum	E_PLAYER_MODE
+ * @brief	プレイヤーモード
+ */
+typedef enum {
+	E_PLAYER_1,				/**< Player1:対人先行 */
+	E_PLAYER_2,				/**< Player1:対人後攻 */
+	E_PLAYER_COM_EASY,		/**< COM(Easy):ミドル3モード */
+	E_PLAYER_COM_NORMAL,	/**< COM(Normal):レジェンドモード */
+
+	E_PLAYER_MODE_MAX,		/**< Do not use */
+} E_PLAYER_MODE;
+
+/**
+ * @enum	E_CARD_CHANGE
+ * @brief	カード取り替え情報
+ */
+typedef enum {
+	E_CARD_CHANGE_NOT_SELECT,	/**< カード取り換え：未選択 */
+	E_CARD_CHANGE_SELECTED,		/**< カード取り換え：選択中 */
+
+	E_CARD_CHANGE_MAX,			/**< Do not use */
+} E_CARD_CHANGE;
+
+/**
+ * @enum	E_POKER_COMP_RESULT
+ * @brief	Poker勝敗情報
+ */
+typedef enum {
+	E_POKER_COMP_DRAW,
+	E_POKER_COMP_PLAYER1_WON,
+	E_POKER_COMP_PLAYER2_WON,
+
+	E_POKER_COMP_RESULT_MAX,	/**< Do not use */
+} E_POKER_COMP_RESULT;
 
 /************************************************************************************************/
 /*	インクルードファイル記載																	*/

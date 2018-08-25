@@ -65,39 +65,39 @@ void ui_showMenuTitle(E_UI_MENU menuId)
 
 	if (menuId == E_UI_MENU_MAIN) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                          |\n");
-		ui_out("|    Main Menu                                             |\n");
-		ui_out("|                                                          |\n");
+		ui_out("|                                                         |\n");
+		ui_out("|    Main Menu                                            |\n");
+		ui_out("|                                                         |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else if (menuId == E_UI_MENU_ROOKIE) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                          |\n");
-		ui_out("|    Rookie Menu                                           |\n");
-		ui_out("|                                                          |\n");
+		ui_out("|                                                         |\n");
+		ui_out("|    Rookie Menu                                          |\n");
+		ui_out("|                                                         |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else if (menuId == E_UI_MENU_MIDDLE1) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                          |\n");
-		ui_out("|    Middle Menu(Single Play Mode)                         |\n");
-		ui_out("|                                                          |\n");
+		ui_out("|                                                         |\n");
+		ui_out("|    Middle Menu(Single Play Mode)                        |\n");
+		ui_out("|                                                         |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else if (menuId == E_UI_MENU_MIDDLE2) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                          |\n");
-		ui_out("|    Middle Menu(Battle Mode)                              |\n");
-		ui_out("|                                                          |\n");
+		ui_out("|                                                         |\n");
+		ui_out("|    Middle Menu(Battle Mode)                             |\n");
+		ui_out("|                                                         |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else if (menuId == E_UI_MENU_MIDDLE3) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                          |\n");
-		ui_out("|    Middle Menu(COM Mode)                              |\n");
-		ui_out("|                                                          |\n");
+		ui_out("|                                                         |\n");
+		ui_out("|    Middle Menu(COM Mode)                                |\n");
+		ui_out("|                                                         |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else if (menuId == E_UI_MENU_LEGEND) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                          |\n");
-		ui_out("|    Legend Menu                                           |\n");
-		ui_out("|                                                          |\n");
+		ui_out("|                                                         |\n");
+		ui_out("|    Legend Menu                                          |\n");
+		ui_out("|                                                         |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else {
 		M_ERROR("menuId Error:%d\n",menuId);
@@ -108,21 +108,25 @@ void ui_showMenuTitle(E_UI_MENU menuId)
  * @brief	サブタイトル（プレイヤー）を表示する
  * @note	コンソール向け
  */
-void ui_showSubTitle(E_UI_PLAYER subId)
+void ui_showSubTitle(E_PLAYER_MODE subId)
 {
 	M_ENTRY();
-
-	if (subId == E_UI_PLAYER_1) {
+	ui_out("\n");
+	if (subId == E_PLAYER_1) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|    Player 1                                              |\n");
+		ui_out("|    Player 1                                             |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-	} else if (subId == E_UI_PLAYER_2) {
+	} else if (subId == E_PLAYER_2) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|    Player 2                                              |\n");
+		ui_out("|    Player 2                                             |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-	} else if (subId == E_UI_PLAYER_COM) {
+	} else if (subId == E_PLAYER_COM_EASY) {
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|    COM                                                  |\n");
+		ui_out("|    COM(EASY)                                            |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (subId == E_PLAYER_COM_NORMAL) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|    COM(NORMAL)                                          |\n");
 		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 	} else {
 		M_ERROR("subId Error:%d\n",subId);
@@ -161,6 +165,16 @@ void ui_showMenu(E_UI_MENU menuId)
 		ui_out("< Battle start? >\n");
 		ui_out("  <1> Yes\n");
 		ui_out("  <other> Quit\n");
+	} else if (menuId == E_UI_MENU_MIDDLE3) {
+		ui_out("\n");
+		ui_out("< play against COM? >\n");
+		ui_out("  <1> Yes\n");
+		ui_out("  <other> Quit\n");
+	} else if (menuId == E_UI_MENU_LEGEND) {
+		ui_out("\n");
+		ui_out("< play against COM? >\n");
+		ui_out("  <1> Yes\n");
+		ui_out("  <other> Quit\n");
 	} else {
 		M_ERROR("menuId Error:%d\n",menuId);
 	}
@@ -175,9 +189,9 @@ void ui_showMenu(E_UI_MENU menuId)
 void ui_showHandCard(HAND_CARD handCard)
 {
 	M_ENTRY();
-	ui_out("\n");
 	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
 	ui_out("  <#> [    Mark :Number]\n");
+	ui_out("----------------------------\n");
 	U1 i = 0;
 	for (i = 0; i < handCard.num; i++) {
 		ui_showCard(i, handCard.id[i], handCard.change[i]);
@@ -202,6 +216,34 @@ void ui_showPokerResult(POKER_HAND pokerHand)
 }
 
 /**
+ * @brief	ポーカーの役を表示する
+ * @note	
+ *
+ * @param[in]	pokerHand1	ポーカーの役
+ * @param[in]	pokerHand2	ポーカーの役
+ * @param[in]	compResult	勝敗情報
+ */
+void ui_showPokerResult2(POKER_HAND pokerHand1, POKER_HAND pokerHand2, E_POKER_COMP_RESULT compResult)
+{
+	M_ENTRY();
+	static const C1 *compResultStr[E_POKER_COMP_RESULT_MAX] = {
+		"    Draw",
+		"    Winner <First Player>",
+		"    Winner <Second Player>",
+	};
+
+	ui_out("\n");
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("  First player result\n");
+	ui_showHand(pokerHand1);
+	ui_out("  Second player result\n");
+	ui_showHand(pokerHand2);
+	ui_out((C1*)compResultStr[compResult]);
+	ui_out("\n");
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+}
+
+/**
  * @brief	ユーザーが入力したコードを取得する
  * @note	コンソール向け
  *
@@ -222,6 +264,17 @@ void ui_pleaseEnterSomething(void)
 	char buffer[D_UI_CONSOLE_BUFFER] = {};
 	ui_out("\n\nPlease enter something.....");
 	fgets(buffer, D_UI_CONSOLE_BUFFER, stdin);
+}
+
+/**
+ * @brief	メッセージを表示する
+ * @note	
+ *
+ */
+void ui_showMessageSelectCard(void)
+{
+	ui_out("Please select card index.<1-5>\n");
+	ui_out("Execute in other cases.<Other>\n");
 }
 
 /************************************************************************************************/
@@ -295,57 +348,12 @@ static void ui_showCard(U1 index, CID id, E_CARD_CHANGE select)
 {
 	/* M_ENTRY(); */
 	M_INFO("index=%d, id=%x, select=%d\n",index, id, select);
-	static const C1 *selectStr[2] = {
+	static const C1 *selectStr[E_CARD_CHANGE_MAX] = {
 		"",
 		"Selected!",
 	};
 	printf("  <%d> [%8s :%s    ]  %s\n", index+1, card_mark(id), card_number(id), selectStr[select]);
 }
-
-// static void ui_showCard(CID id, U1 index)
-// {
-// 	/* M_ENTRY(); */
-// 	const C1 *strMark[D_CARD_MARK+1] = { 
-// 				D_CARD_MARK_DIAMOND_S,
-// 				D_CARD_MARK_CLOVER_S,
-// 				D_CARD_MARK_HEART_S,
-// 				D_CARD_MARK_SPADE_S,
-// 				D_CARD_MARK_JOKER_S,
-// 			};
-// 	const C1 *strNumber[D_CARD_NUMBER] = { " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K", " A" };
-
-// 	CID mark = M_CARD_MARK_ID(id);
-// 	CID number = M_CARD_NUMBER_ID(id) - 1;
-// 	U1 markIndex = 0;
-// 	switch (mark) {
-// 	case D_CARD_MARK_DIAMOND:
-// 		markIndex = 0;
-// 		break;
-// 	case D_CARD_MARK_CLOVER:
-// 		markIndex = 1;
-// 		break;
-// 	case D_CARD_MARK_HEART:
-// 		markIndex = 2;
-// 		break;
-// 	case D_CARD_MARK_SPADE:
-// 		markIndex = 3;
-// 		break;
-// 	case D_CARD_MARK_JOKER:
-// 	default:
-// 		markIndex = 4;
-// 		break;
-// 	}
-
-// 	// static const C1 *select[2] = {
-// 	// 	"Selected!",
-// 	// 	""
-// 	// };
-// 	if (mark == D_CARD_MARK_JOKER) {
-// 		printf("  <%d> [%8s :--    ]\n", index+1, strMark[markIndex]);
-// 	} else {
-// 		printf("  <%d> [%8s :%s    ]\n", index+1, strMark[markIndex], strNumber[number]);
-// 	}
-// }
 
 #define D_POKER_HAND_TYPE_MAX						(11)
 #define D_POKER_HAND_ENABLE_BIT						(0x01)
@@ -360,7 +368,7 @@ static U1 poker_handNumber(POKER_HAND pokerHand);
 static void ui_showHand(POKER_HAND pokerHand)
 {
 	/* M_ENTRY(); */
-	const C1 *hand[D_POKER_HAND_TYPE_MAX] = {
+	static const C1 *hand[D_POKER_HAND_TYPE_MAX] = {
 		"Royal Straight Flash",
 		"Five Card",
 		"Straight Flash",
