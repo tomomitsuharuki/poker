@@ -220,7 +220,6 @@ static E_BOOL poker_isFlash(HAND_CARD card)
 	for (i = 0; i < card.num; i++) {
 		judgeMark &= M_CARD_MARK_ID(card.id[i]);
 	}
-	printf("judgeMark = 0x%02x\n", judgeMark);
 	if ((judgeMark == D_CARD_MARK_SPADE) || 
 		(judgeMark == D_CARD_MARK_HEART) || 
 		(judgeMark == D_CARD_MARK_DIAMOND) || 
@@ -467,7 +466,6 @@ static POKER_HAND poker_judgePairWithJoker(HAND_CARD card)
 			}
 		}
 	}
-	printf("matchCount = %d\n",matchCount);
 	if (matchCount >= 6) {
 		judgeResult |= D_POKER_HAND_FIVE_CARD;
 	} else if (matchCount >= 4) {

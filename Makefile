@@ -104,6 +104,7 @@ SRC_FILES += src/player.c
 SRC_FILES += src/poker.c
 SRC_FILES += src/game.c
 SRC_FILES += src/ui.c
+SRC_FILES += src/debug.c
 
 #==============================================================================
 # Primary target
