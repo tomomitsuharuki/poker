@@ -76,7 +76,7 @@ void ui_showHandCard(HAND_CARD handCard);
  *
  * @param[in]	pokerHand	ポーカーの役
  */
-void ui_showPokerResult(POKER_HAND pokerHand);
+void ui_showPokerResult(E_POKER_HAND pokerHand);
 
 /**
  * @brief	ポーカーの役を表示する
@@ -86,7 +86,7 @@ void ui_showPokerResult(POKER_HAND pokerHand);
  * @param[in]	pokerHand2	ポーカーの役
  * @param[in]	compResult	勝敗情報
  */
-void ui_showPokerResult2(POKER_HAND pokerHand1, POKER_HAND pokerHand2, E_POKER_COMP_RESULT compResult);
+void ui_showPokerResult2(E_POKER_HAND pokerHand1, E_POKER_HAND pokerHand2, E_POKER_COMP_RESULT compResult);
 
 /**
  * @brief	メッセージを表示する

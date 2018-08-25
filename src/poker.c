@@ -25,18 +25,18 @@
 /** @name ポーカーの役
  */
 /*@{*/
-#define D_POKER_HAND_ROYAL_STRAIGHT_FLASH			(1<<0)
-#define D_POKER_HAND_FIVE_CARD						(1<<1)
-#define D_POKER_HAND_STRAIGHT_FLASH					(1<<2)
-#define D_POKER_HAND_FOUR_CARD						(1<<3)
-#define D_POKER_HAND_FULL_HOUSE						(1<<4)
-#define D_POKER_HAND_FLASH							(1<<5)
-#define D_POKER_HAND_STRAIGHT						(1<<6)
-#define D_POKER_HAND_THREE_CARD						(1<<7)
-#define D_POKER_HAND_TWO_PAIR						(1<<8)
-#define D_POKER_HAND_ONE_PAIR						(1<<9)
-#define D_POKER_HAND_BUHI							(0x00)
-#define D_POKER_HAND_TYPE_MAX						(11)
+// #define D_POKER_HAND_ROYAL_STRAIGHT_FLASH			(1<<0)
+// #define D_POKER_HAND_FIVE_CARD						(1<<1)
+// #define D_POKER_HAND_STRAIGHT_FLASH					(1<<2)
+// #define D_POKER_HAND_FOUR_CARD						(1<<3)
+// #define D_POKER_HAND_FULL_HOUSE						(1<<4)
+// #define D_POKER_HAND_FLASH							(1<<5)
+// #define D_POKER_HAND_STRAIGHT						(1<<6)
+// #define D_POKER_HAND_THREE_CARD						(1<<7)
+// #define D_POKER_HAND_TWO_PAIR						(1<<8)
+// #define D_POKER_HAND_ONE_PAIR						(1<<9)
+// #define D_POKER_HAND_BUHI							(0x00)
+// #define D_POKER_HAND_TYPE_MAX						(11)
 /*@}*/
 
 /** @name ロイヤルストレートフラッシュ判定のしきい値
@@ -61,11 +61,11 @@ static E_BOOL poker_isFlash(HAND_CARD card);
 static E_BOOL poker_isStraight(HAND_CARD card);
 static E_BOOL poker_isStraightWithoutJoker(HAND_CARD card);
 static E_BOOL poker_isStraightWithJoker(HAND_CARD card);
-static POKER_HAND poker_judgeRoyalStraightFlash(HAND_CARD card);
-static POKER_HAND poker_judgeStraightFlash(HAND_CARD card);
-static POKER_HAND poker_judgePair(HAND_CARD card);
-static POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card);
-static POKER_HAND poker_judgePairWithJoker(HAND_CARD card);
+static E_POKER_HAND poker_judgeRoyalStraightFlash(HAND_CARD card);
+static E_POKER_HAND poker_judgeStraightFlash(HAND_CARD card);
+static E_POKER_HAND poker_judgePair(HAND_CARD card);
+static E_POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card);
+static E_POKER_HAND poker_judgePairWithJoker(HAND_CARD card);
 static CID poker_totalId(HAND_CARD card);
 static E_POKER_COMP_RESULT poker_drawJudge(HAND_CARD card1, HAND_CARD card2);
 
@@ -109,12 +109,12 @@ E_BOOL poker_validCard(HAND_CARD card)
  * @return
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |判定結果の役情報|
+ * | E_POKER_HAND |判定結果の役情報|
  */
-POKER_HAND poker_judgment(HAND_CARD card)
+E_POKER_HAND poker_judgment(HAND_CARD card)
 {
 	M_ENTRY();
-	POKER_HAND judgeResult = D_POKER_HAND_BUHI;
+	E_POKER_HAND judgeResult = E_POKER_HAND_BUHI;
 	if (poker_validCard(card) == E_FALSE) {
 		M_ERROR("card error.\n");
 		return judgeResult;
@@ -123,13 +123,13 @@ POKER_HAND poker_judgment(HAND_CARD card)
 	poker_bubbleSort(&card);
 	
 	if (poker_isFlash(card) == E_TRUE) {
-		judgeResult |= poker_judgeRoyalStraightFlash(card);
-		judgeResult |= poker_judgeStraightFlash(card);
-		judgeResult |= D_POKER_HAND_FLASH;
+		judgeResult = poker_judgeRoyalStraightFlash(card);
+		judgeResult = poker_judgeStraightFlash(card);
+		judgeResult = E_POKER_HAND_FLASH;
 	} else if (poker_isStraight(card) == E_TRUE) {
-		judgeResult |= D_POKER_HAND_STRAIGHT;
+		judgeResult = E_POKER_HAND_STRAIGHT;
 	} else {
-		judgeResult |= poker_judgePair(card);
+		judgeResult = poker_judgePair(card);
 	}
 
 	return judgeResult;
@@ -144,12 +144,12 @@ POKER_HAND poker_judgment(HAND_CARD card)
  * @return
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |判定結果の役情報|
+ * | E_POKER_HAND |判定結果の役情報|
  */
 E_POKER_COMP_RESULT poker_judgmentComp(HAND_CARD card1, HAND_CARD card2)
 {
-	POKER_HAND judgeResult1 = poker_judgment(card1);
-	POKER_HAND judgeResult2 = poker_judgment(card2);
+	E_POKER_HAND judgeResult1 = poker_judgment(card1);
+	E_POKER_HAND judgeResult2 = poker_judgment(card2);
 
 	if (judgeResult1 < judgeResult2) {
 		return E_POKER_COMP_PLAYER1_WON;
@@ -158,6 +158,32 @@ E_POKER_COMP_RESULT poker_judgmentComp(HAND_CARD card1, HAND_CARD card2)
 	} else {
 		return poker_drawJudge(card1, card2);
 	}
+}
+
+/**
+ * @brief	ポーカーの役を出力する
+ * @note	役の文字列を出力する
+ *
+ * @param[in]	pokerHand	手札情報
+ * @return		役の文字列
+ */
+const C1* poker_hand(E_POKER_HAND pokerHand)
+{
+	/* M_ENTRY(); */
+	static const C1 *hand[E_POKER_HAND_TYPE_MAX] = {
+		"Royal Straight Flash",
+		"Five Card",
+		"Straight Flash",
+		"Four Card",
+		"Full House",
+		"Flash",
+		"Straight",
+		"Three Card",
+		"Two Pair",
+		"One Pair",
+		"Buhi",
+	};
+	return hand[pokerHand];
 }
 
 /************************************************************************************************/
@@ -357,24 +383,24 @@ static E_BOOL poker_isStraightWithJoker(HAND_CARD card)
  * @param[in]	card	手札情報
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |役判定結果|
+ * | E_POKER_HAND |役判定結果|
  * @attention
  * Jokerあり・なし両対応
  */
-static POKER_HAND poker_judgeRoyalStraightFlash(HAND_CARD card)
+static E_POKER_HAND poker_judgeRoyalStraightFlash(HAND_CARD card)
 {
 	M_ENTRY();
-	POKER_HAND judgeResult = D_POKER_HAND_BUHI;
+	E_POKER_HAND judgeResult = E_POKER_HAND_BUHI;
 	if (poker_hasJoker(card) == E_FALSE) {
 		CID totalId = poker_totalId(card);
 		if (totalId >= D_POKER_JUDGE_ROYAL_STRAIGHT_FLASH_WITHOUT_J) {
-			judgeResult |= D_POKER_HAND_ROYAL_STRAIGHT_FLASH;
+			judgeResult = E_POKER_HAND_ROYAL_STRAIGHT_FLASH;
 		}
 	} else {
 		poker_removeJoker(&card);
 		CID totalId = poker_totalId(card);
 		if (totalId >= D_POKER_JUDGE_ROYAL_STRAIGHT_FLASH_WITH_J) {
-			judgeResult |= D_POKER_HAND_ROYAL_STRAIGHT_FLASH;
+			judgeResult = E_POKER_HAND_ROYAL_STRAIGHT_FLASH;
 		}
 	}
 	return judgeResult;
@@ -387,16 +413,16 @@ static POKER_HAND poker_judgeRoyalStraightFlash(HAND_CARD card)
  * @param[in]	card	手札情報
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |役判定結果|
+ * | E_POKER_HAND |役判定結果|
  * @attention
  * Jokerあり・なし両対応
  */
-static POKER_HAND poker_judgeStraightFlash(HAND_CARD card)
+static E_POKER_HAND poker_judgeStraightFlash(HAND_CARD card)
 {
 	M_ENTRY();
-	POKER_HAND judgeResult = D_POKER_HAND_BUHI;
+	E_POKER_HAND judgeResult = E_POKER_HAND_BUHI;
 	if (poker_isStraight(card) == E_TRUE) {
-		judgeResult |= D_POKER_HAND_STRAIGHT_FLASH;
+		judgeResult = E_POKER_HAND_STRAIGHT_FLASH;
 	}
 	return judgeResult;
 }
@@ -408,11 +434,11 @@ static POKER_HAND poker_judgeStraightFlash(HAND_CARD card)
  * @param[in]	card	手札情報
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |役判定結果|
+ * | E_POKER_HAND |役判定結果|
  * @attention
  * Jokerあり・なし両対応
  */
-static POKER_HAND poker_judgePair(HAND_CARD card)
+static E_POKER_HAND poker_judgePair(HAND_CARD card)
 {
 	M_ENTRY();
 	if (poker_hasJoker(card) == E_FALSE) {
@@ -430,14 +456,14 @@ static POKER_HAND poker_judgePair(HAND_CARD card)
  * @param[in]	card	手札情報
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |役判定結果|
+ * | E_POKER_HAND |役判定結果|
  * @attention
  * Jokerなしのみ対応
  */
-static POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card)
+static E_POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card)
 {
 	M_ENTRY();
-	POKER_HAND judgeResult = D_POKER_HAND_BUHI;
+	E_POKER_HAND judgeResult = E_POKER_HAND_BUHI;
 	U1 matchCount = 0;
 	U1 i = 0;
 	U1 j = 0;
@@ -449,17 +475,17 @@ static POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card)
 		}
 	}
 	if (matchCount >= 6) {
-		judgeResult |= D_POKER_HAND_FOUR_CARD;
+		judgeResult = E_POKER_HAND_FOUR_CARD;
 	} else if (matchCount >= 4) {
-		judgeResult |= D_POKER_HAND_FULL_HOUSE;
+		judgeResult = E_POKER_HAND_FULL_HOUSE;
 	} else if (matchCount == 3) {
-		judgeResult |= D_POKER_HAND_THREE_CARD;
+		judgeResult = E_POKER_HAND_THREE_CARD;
 	} else if (matchCount == 2) {
-		judgeResult |= D_POKER_HAND_TWO_PAIR;
+		judgeResult = E_POKER_HAND_TWO_PAIR;
 	} else if (matchCount == 1) {
-		judgeResult |= D_POKER_HAND_ONE_PAIR;
+		judgeResult = E_POKER_HAND_ONE_PAIR;
 	} else {
-		judgeResult |= D_POKER_HAND_BUHI;
+		judgeResult = E_POKER_HAND_BUHI;
 	}
 
 	return judgeResult;
@@ -472,14 +498,14 @@ static POKER_HAND poker_judgePairWithoutJoker(HAND_CARD card)
  * @param[in]	card	手札情報
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |役判定結果|
+ * | E_POKER_HAND |役判定結果|
  * @attention
  * Jokerありのみ対応
  */
-static POKER_HAND poker_judgePairWithJoker(HAND_CARD card)
+static E_POKER_HAND poker_judgePairWithJoker(HAND_CARD card)
 {
 	M_ENTRY();
-	POKER_HAND judgeResult = D_POKER_HAND_BUHI;
+	E_POKER_HAND judgeResult = E_POKER_HAND_BUHI;
 	U1 matchCount = 0;
 	U1 i = 0;
 	U1 j = 0;
@@ -491,18 +517,18 @@ static POKER_HAND poker_judgePairWithJoker(HAND_CARD card)
 		}
 	}
 	if (matchCount >= 6) {
-		judgeResult |= D_POKER_HAND_FIVE_CARD;
+		judgeResult = E_POKER_HAND_FIVE_CARD;
 	} else if (matchCount >= 4) {
 		M_ERROR("Judge error.\n");
-		judgeResult |= D_POKER_HAND_BUHI;
+		judgeResult = E_POKER_HAND_BUHI;
 	} else if (matchCount == 3) {
-		judgeResult |= D_POKER_HAND_FOUR_CARD;
+		judgeResult = E_POKER_HAND_FOUR_CARD;
 	} else if (matchCount == 2) {
-		judgeResult |= D_POKER_HAND_FULL_HOUSE;
+		judgeResult = E_POKER_HAND_FULL_HOUSE;
 	} else if (matchCount == 1) {
-		judgeResult |= D_POKER_HAND_THREE_CARD;
+		judgeResult = E_POKER_HAND_THREE_CARD;
 	} else {
-		judgeResult |= D_POKER_HAND_ONE_PAIR;
+		judgeResult = E_POKER_HAND_ONE_PAIR;
 	}
 
 	return judgeResult;
@@ -537,7 +563,7 @@ static CID poker_totalId(HAND_CARD card)
  * @return
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |判定結果の役情報|
+ * | E_POKER_HAND |判定結果の役情報|
  */
 static E_POKER_COMP_RESULT poker_drawJudge(HAND_CARD card1, HAND_CARD card2)
 {

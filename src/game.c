@@ -187,7 +187,7 @@ static E_BOOL game_executeRookie(void)
 		player_receiveCard(rookie, card_deal());
 		/* 手札を出す */
 		HAND_CARD handCard = player_handCard(rookie);
-		POKER_HAND judgeResult = poker_judgment(handCard);
+		E_POKER_HAND judgeResult = poker_judgment(handCard);
 		/* 結果を表示する */
 		ui_showHandCard(handCard);
 		ui_showPokerResult(judgeResult);
@@ -259,7 +259,7 @@ static E_BOOL game_executeMiddle1(void)
 		}
 		/* 結果を表示する */
 		HAND_CARD handCard = player_handCard(single);
-		POKER_HAND judgeResult = poker_judgment(handCard);
+		E_POKER_HAND judgeResult = poker_judgment(handCard);
 		ui_showHandCard(handCard);
 		ui_showPokerResult(judgeResult);
 		ui_pleaseEnterSomething();
@@ -372,8 +372,8 @@ static E_BOOL game_executeMiddle2(void)
 		/* 結果を表示する */
 		HAND_CARD handCard1 = player_handCard(player1);
 		HAND_CARD handCard2 = player_handCard(player2);
-		POKER_HAND judgeResult1 = poker_judgment(handCard1);
-		POKER_HAND judgeResult2 = poker_judgment(handCard2);
+		E_POKER_HAND judgeResult1 = poker_judgment(handCard1);
+		E_POKER_HAND judgeResult2 = poker_judgment(handCard2);
 		ui_showSubTitle(player1);
 		ui_showHandCard(handCard1);
 		ui_showSubTitle(player2);
@@ -441,8 +441,8 @@ static E_BOOL game_executeGame(E_UI_MENU gameMode, E_PLAYER_MODE player1, E_PLAY
 		ui_showMenuTitle(gameMode);
 		HAND_CARD handCard1 = player_handCard(player1);
 		HAND_CARD handCard2 = player_handCard(player2);
-		POKER_HAND judgeResult1 = poker_judgment(handCard1);
-		POKER_HAND judgeResult2 = poker_judgment(handCard2);
+		E_POKER_HAND judgeResult1 = poker_judgment(handCard1);
+		E_POKER_HAND judgeResult2 = poker_judgment(handCard2);
 		ui_showSubTitle(player1);
 		ui_showHandCard(handCard1);
 		ui_showSubTitle(player2);

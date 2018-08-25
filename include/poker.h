@@ -39,9 +39,9 @@ E_BOOL poker_validCard(HAND_CARD card);
  * @return
  * |値 | 説明 |
  * |---|------|
- * | POKER_HAND |判定結果の役情報|
+ * | E_POKER_HAND |判定結果の役情報|
  */
-POKER_HAND poker_judgment(HAND_CARD card);
+E_POKER_HAND poker_judgment(HAND_CARD card);
 
 /**
  * @brief	ポーカーの勝敗を判定する
@@ -56,5 +56,13 @@ POKER_HAND poker_judgment(HAND_CARD card);
  */
 E_POKER_COMP_RESULT poker_judgmentComp(HAND_CARD card1, HAND_CARD card2);
 
+/**
+ * @brief	ポーカーの役を出力する
+ * @note	役の文字列を出力する
+ *
+ * @param[in]	pokerHand	手札情報
+ * @return		役の文字列
+ */
+const C1* poker_hand(E_POKER_HAND pokerHand);
 
 #endif /* __POKER_H__ */

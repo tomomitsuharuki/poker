@@ -29,7 +29,7 @@ typedef unsigned long long	U8;
  */
 /*@{*/
 typedef U1					CID;			/**< Card ID */
-typedef U2					POKER_HAND;		/**< Pokerの役 */
+// typedef U2					POKER_HAND;		/**< Pokerの役 */
 /*@}*/
 
 /**
@@ -104,6 +104,26 @@ typedef enum {
 
 	E_POKER_COMP_RESULT_MAX,	/**< Do not use */
 } E_POKER_COMP_RESULT;
+
+/**
+ * @enum	E_POKER_HAND
+ * @brief	Pokerの役
+ */
+typedef enum {
+	E_POKER_HAND_ROYAL_STRAIGHT_FLASH,
+	E_POKER_HAND_FIVE_CARD,
+	E_POKER_HAND_STRAIGHT_FLASH,
+	E_POKER_HAND_FOUR_CARD,
+	E_POKER_HAND_FULL_HOUSE,
+	E_POKER_HAND_FLASH,
+	E_POKER_HAND_STRAIGHT,
+	E_POKER_HAND_THREE_CARD,
+	E_POKER_HAND_TWO_PAIR,
+	E_POKER_HAND_ONE_PAIR,
+	E_POKER_HAND_BUHI,
+
+	E_POKER_HAND_TYPE_MAX,							/**< Do not use */
+} E_POKER_HAND;
 
 /************************************************************************************************/
 /*	インクルードファイル記載																	*/

@@ -37,7 +37,7 @@
 /*	内部関数プロトタイプ宣言																	*/
 /************************************************************************************************/
 static void ui_showCard(U1 index, CID id, E_CARD_CHANGE select);
-static void ui_showHand(POKER_HAND pokerHand);
+static void ui_showHand(E_POKER_HAND pokerHand);
 static void ui_out(C1 *str);
 static E_UI_SELECT_CODE ui_in(C1 *str);
 
@@ -205,14 +205,14 @@ void ui_showHandCard(HAND_CARD handCard)
  *
  * @param[in]	pokerHand	ポーカーの役
  */
-void ui_showPokerResult(POKER_HAND pokerHand)
+void ui_showPokerResult(E_POKER_HAND pokerHand)
 {
 	M_ENTRY();
 	ui_out("\n");
-	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
-	ui_out("  Result  \n");
+	ui_out("===========================================================\n");
+	ui_out("  Result ==> ");
 	ui_showHand(pokerHand);
-	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("===========================================================\n");
 }
 
 /**
@@ -223,24 +223,24 @@ void ui_showPokerResult(POKER_HAND pokerHand)
  * @param[in]	pokerHand2	ポーカーの役
  * @param[in]	compResult	勝敗情報
  */
-void ui_showPokerResult2(POKER_HAND pokerHand1, POKER_HAND pokerHand2, E_POKER_COMP_RESULT compResult)
+void ui_showPokerResult2(E_POKER_HAND pokerHand1, E_POKER_HAND pokerHand2, E_POKER_COMP_RESULT compResult)
 {
 	M_ENTRY();
 	static const C1 *compResultStr[E_POKER_COMP_RESULT_MAX] = {
-		"    Draw",
-		"    Winner <First Player>",
-		"    Winner <Second Player>",
+		"  Draw",
+		"  Winner <First Player>",
+		"  Winner <Second Player>",
 	};
 
 	ui_out("\n");
-	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
-	ui_out("  First player result\n");
+	ui_out("===========================================================\n");
+	ui_out("  First player result  ==> ");
 	ui_showHand(pokerHand1);
-	ui_out("  Second player result\n");
+	ui_out("  Second player result ==> ");
 	ui_showHand(pokerHand2);
 	ui_out((C1*)compResultStr[compResult]);
 	ui_out("\n");
-	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("===========================================================\n");
 }
 
 /**
@@ -355,47 +355,16 @@ static void ui_showCard(U1 index, CID id, E_CARD_CHANGE select)
 	printf("  <%d> [%8s :%s    ]  %s\n", index+1, card_mark(id), card_number(id), selectStr[select]);
 }
 
-#define D_POKER_HAND_TYPE_MAX						(11)
-#define D_POKER_HAND_ENABLE_BIT						(0x01)
-static U1 poker_handNumber(POKER_HAND pokerHand);
-
 /**
  * @brief	ポーカーの役を表示する
  * @note	
  *
  * @param[in]	pokerHand	手札情報
  */
-static void ui_showHand(POKER_HAND pokerHand)
+static void ui_showHand(E_POKER_HAND pokerHand)
 {
 	/* M_ENTRY(); */
-	static const C1 *hand[D_POKER_HAND_TYPE_MAX] = {
-		"Royal Straight Flash",
-		"Five Card",
-		"Straight Flash",
-		"Four Card",
-		"Full House",
-		"Flash",
-		"Straight",
-		"Three Card",
-		"Two Pair",
-		"One Pair",
-		"Buhi",
-	};
-	U1 handNumber = poker_handNumber(pokerHand);
-	// printf("handNumber = %d\n",handNumber);
-	printf("   <<<%s>>>\n" ,hand[handNumber]);
+	ui_out("<<<");
+	ui_out((C1*)poker_hand(pokerHand));
+	ui_out(">>>\n");
 }
-
-static U1 poker_handNumber(POKER_HAND pokerHand)
-{
-	/* M_ENTRY(); */
-	U1 i = 0;
-	for (i = 0; i < D_POKER_HAND_TYPE_MAX - 1; i++) {
-		if ((pokerHand & D_POKER_HAND_ENABLE_BIT) == D_POKER_HAND_ENABLE_BIT) {
-			return i;
-		}
-		pokerHand >>= 1;
-	}
-	return i;
-}
-
