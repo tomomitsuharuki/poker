@@ -88,6 +88,65 @@ CID card_deal(void)
 	return dealCard;
 }
 
+/**
+ * @brief	カード番号を出力
+ * @note	カードIDからカード番号（文字列）に変換
+ *
+ * @return	カード番号
+ */
+const C1* card_number(CID id)
+{
+	M_ENTRY();
+	static const C1 *strNumber[D_CARD_NUMBER + 1] = {
+		 " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K", " A", "--"
+	};
+	CID numberIndex = M_CARD_NUMBER_ID(id) - 1;
+	if (numberIndex >= D_CARD_NUMBER) {
+		numberIndex = D_CARD_NUMBER;
+	}
+	return strNumber[numberIndex];
+}
+
+/**
+ * @brief	カードマークを出力
+ * @note	カードIDからカードマーク（文字列）に変換
+ *
+ * @return	カード番号
+ */
+const C1* card_mark(CID id)
+{
+	M_ENTRY();
+	static const C1 *strMark[D_CARD_MARK + 1] = { 
+				D_CARD_MARK_DIAMOND_S,
+				D_CARD_MARK_CLOVER_S,
+				D_CARD_MARK_HEART_S,
+				D_CARD_MARK_SPADE_S,
+				D_CARD_MARK_JOKER_S,
+			};
+	CID mark = M_CARD_MARK_ID(id);
+	U1 markIndex = 0;
+	switch (mark) {
+	case D_CARD_MARK_DIAMOND:
+		markIndex = 0;
+		break;
+	case D_CARD_MARK_CLOVER:
+		markIndex = 1;
+		break;
+	case D_CARD_MARK_HEART:
+		markIndex = 2;
+		break;
+	case D_CARD_MARK_SPADE:
+		markIndex = 3;
+		break;
+	case D_CARD_MARK_JOKER:
+	default:
+		markIndex = 4;
+		break;
+	}
+	return strMark[markIndex];
+}
+
+
 /************************************************************************************************/
 /*	内部関数																					*/
 /************************************************************************************************/

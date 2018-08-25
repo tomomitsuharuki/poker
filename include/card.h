@@ -91,6 +91,21 @@ void card_shuffle(void);
  */
 CID card_deal(void);
 
+/**
+ * @brief	カード番号を出力
+ * @note	カードIDからカード番号（文字列）に変換
+ *
+ * @return	カード番号
+ */
+const C1* card_number(CID id);
+
+/**
+ * @brief	カードマークを出力
+ * @note	カードIDからカードマーク（文字列）に変換
+ *
+ * @return	カード番号
+ */
+const C1* card_mark(CID id);
 
 
 

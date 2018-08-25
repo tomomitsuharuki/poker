@@ -36,7 +36,7 @@
 /************************************************************************************************/
 /*	内部関数プロトタイプ宣言																	*/
 /************************************************************************************************/
-static void ui_showCard(CID id, U1 index);
+static void ui_showCard(U1 index, CID id, E_CARD_CHANGE select);
 static void ui_showHand(POKER_HAND pokerHand);
 static void ui_out(C1 *str);
 static E_UI_SELECT_CODE ui_in(C1 *str);
@@ -55,45 +55,110 @@ void ui_clear(void)
 }
 
 /**
+ * @brief	メニュータイトルを表示する
+ * @note	コンソール向け
+ */
+void ui_showMenuTitle(E_UI_MENU menuId)
+{
+	M_ENTRY();
+	ui_clear();
+
+	if (menuId == E_UI_MENU_MAIN) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                          |\n");
+		ui_out("|    Main Menu                                             |\n");
+		ui_out("|                                                          |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (menuId == E_UI_MENU_ROOKIE) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                          |\n");
+		ui_out("|    Rookie Menu                                           |\n");
+		ui_out("|                                                          |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (menuId == E_UI_MENU_MIDDLE1) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                          |\n");
+		ui_out("|    Middle Menu(Single Play Mode)                         |\n");
+		ui_out("|                                                          |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (menuId == E_UI_MENU_MIDDLE2) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                          |\n");
+		ui_out("|    Middle Menu(Battle Mode)                              |\n");
+		ui_out("|                                                          |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (menuId == E_UI_MENU_MIDDLE3) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                          |\n");
+		ui_out("|    Middle Menu(COM Mode)                              |\n");
+		ui_out("|                                                          |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (menuId == E_UI_MENU_LEGEND) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|                                                          |\n");
+		ui_out("|    Legend Menu                                           |\n");
+		ui_out("|                                                          |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else {
+		M_ERROR("menuId Error:%d\n",menuId);
+	}
+}
+
+/**
+ * @brief	サブタイトル（プレイヤー）を表示する
+ * @note	コンソール向け
+ */
+void ui_showSubTitle(E_UI_PLAYER subId)
+{
+	M_ENTRY();
+
+	if (subId == E_UI_PLAYER_1) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|    Player 1                                              |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (subId == E_UI_PLAYER_2) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|    Player 2                                              |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (subId == E_UI_PLAYER_COM) {
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+		ui_out("|    COM                                                  |\n");
+		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else {
+		M_ERROR("subId Error:%d\n",subId);
+	}
+}
+
+/**
  * @brief	メニューを表示する
  * @note	コンソール向け
  */
 void ui_showMenu(E_UI_MENU menuId)
 {
 	M_ENTRY();
-	ui_clear();
 
 	if (menuId == E_UI_MENU_MAIN) {
-		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                             |\n");
-		ui_out("|    Main Menu                                                |\n");
-		ui_out("|                                                             |\n");
-		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 		ui_out("\n");
 		ui_out("< Select Mode >\n");
 		ui_out("  <1> Rookie1 Game Mode\n");
-		ui_out("  <2> Rookie2 Game Mode\n");
-		ui_out("  <3> Middle Game Mode\n");
-		ui_out("  <4> Legend Game Mode\n");
+		ui_out("  <2> Middle Game Mode(Single Play Mode)\n");
+		ui_out("  <3> Middle Game Mode(Battle Play Mode)\n");
+		ui_out("  <4> Middle Game Mode(COM Mode)\n");
+		ui_out("  <5> Legend Game Mode\n");
 		ui_out("  <other> Quit\n");
 	} else if (menuId == E_UI_MENU_ROOKIE) {
-		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                             |\n");
-		ui_out("|    Rookie Menu                                              |\n");
-		ui_out("|                                                             |\n");
-		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
 		ui_out("\n");
 		ui_out("< Do you accept 5 cards? >\n");
 		ui_out("  <1> Yes\n");
 		ui_out("  <other> Quit\n");
-	} else if (menuId == E_UI_MENU_ROOKIE2) {
-		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
-		ui_out("|                                                             |\n");
-		ui_out("|    Rookie2 Menu(Single Poker)                               |\n");
-		ui_out("|                                                             |\n");
-		ui_out("/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/\n");
+	} else if (menuId == E_UI_MENU_MIDDLE1) {
 		ui_out("\n");
 		ui_out("< Do you accept 5 cards? >\n");
+		ui_out("  <1> Yes\n");
+		ui_out("  <other> Quit\n");
+	} else if (menuId == E_UI_MENU_MIDDLE2) {
+		ui_out("\n");
+		ui_out("< Battle start? >\n");
 		ui_out("  <1> Yes\n");
 		ui_out("  <other> Quit\n");
 	} else {
@@ -115,7 +180,7 @@ void ui_showHandCard(HAND_CARD handCard)
 	ui_out("  <#> [    Mark :Number]\n");
 	U1 i = 0;
 	for (i = 0; i < handCard.num; i++) {
-		ui_showCard(handCard.id[i], i);
+		ui_showCard(i, handCard.id[i], handCard.change[i]);
 	}
 	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
 }
@@ -124,24 +189,16 @@ void ui_showHandCard(HAND_CARD handCard)
  * @brief	ポーカーの役を表示する
  * @note	
  *
- * @param[in]	pokerHand	手札情報
  * @param[in]	pokerHand	ポーカーの役
  */
-void ui_showPokerResult(HAND_CARD handCard, POKER_HAND pokerHand)
+void ui_showPokerResult(POKER_HAND pokerHand)
 {
 	M_ENTRY();
 	ui_out("\n");
-	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
 	ui_out("  Result  \n");
-	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
-	ui_out("\n");
-
-	U1 i = 0;
-	for (i = 0; i < handCard.num; i++) {
-		ui_showCard(handCard.id[i], i);
-	}
-	ui_out("\n");
 	ui_showHand(pokerHand);
+	ui_out("*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*\n");
 }
 
 /**
@@ -227,52 +284,68 @@ static E_UI_SELECT_CODE ui_in(C1 *str)
 }
 
 /**
- * @brief	手札を表示する
+ * @brief	カードを表示する
  * @note	
  *
  * @param[in]	id	カード情報
+ * @param[in]	id	カード情報
+ * @param[in]	id	カード情報
  */
-static void ui_showCard(CID id, U1 index)
+static void ui_showCard(U1 index, CID id, E_CARD_CHANGE select)
 {
 	/* M_ENTRY(); */
-	const C1 *strMark[D_CARD_MARK+1] = { 
-				D_CARD_MARK_DIAMOND_S,
-				D_CARD_MARK_CLOVER_S,
-				D_CARD_MARK_HEART_S,
-				D_CARD_MARK_SPADE_S,
-				D_CARD_MARK_JOKER_S,
-			};
-	const C1 *strNumber[D_CARD_NUMBER] = { " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K", " A" };
-
-	CID mark = M_CARD_MARK_ID(id);
-	CID number = M_CARD_NUMBER_ID(id) - 1;
-	U1 markIndex = 0;
-	switch (mark) {
-	case D_CARD_MARK_DIAMOND:
-		markIndex = 0;
-		break;
-	case D_CARD_MARK_CLOVER:
-		markIndex = 1;
-		break;
-	case D_CARD_MARK_HEART:
-		markIndex = 2;
-		break;
-	case D_CARD_MARK_SPADE:
-		markIndex = 3;
-		break;
-	case D_CARD_MARK_JOKER:
-	default:
-		markIndex = 4;
-		break;
-	}
-
-	// printf("  (0x%x)\n", id);
-	if (mark == D_CARD_MARK_JOKER) {
-		printf("  <%d> [%8s :--    ]\n", index, strMark[markIndex]);
-	} else {
-		printf("  <%d> [%8s :%s    ]\n", index, strMark[markIndex], strNumber[number]);
-	}
+	M_INFO("index=%d, id=%x, select=%d\n",index, id, select);
+	static const C1 *selectStr[2] = {
+		"",
+		"Selected!",
+	};
+	printf("  <%d> [%8s :%s    ]  %s\n", index+1, card_mark(id), card_number(id), selectStr[select]);
 }
+
+// static void ui_showCard(CID id, U1 index)
+// {
+// 	/* M_ENTRY(); */
+// 	const C1 *strMark[D_CARD_MARK+1] = { 
+// 				D_CARD_MARK_DIAMOND_S,
+// 				D_CARD_MARK_CLOVER_S,
+// 				D_CARD_MARK_HEART_S,
+// 				D_CARD_MARK_SPADE_S,
+// 				D_CARD_MARK_JOKER_S,
+// 			};
+// 	const C1 *strNumber[D_CARD_NUMBER] = { " 2", " 3", " 4", " 5", " 6", " 7", " 8", " 9", "10", " J", " Q", " K", " A" };
+
+// 	CID mark = M_CARD_MARK_ID(id);
+// 	CID number = M_CARD_NUMBER_ID(id) - 1;
+// 	U1 markIndex = 0;
+// 	switch (mark) {
+// 	case D_CARD_MARK_DIAMOND:
+// 		markIndex = 0;
+// 		break;
+// 	case D_CARD_MARK_CLOVER:
+// 		markIndex = 1;
+// 		break;
+// 	case D_CARD_MARK_HEART:
+// 		markIndex = 2;
+// 		break;
+// 	case D_CARD_MARK_SPADE:
+// 		markIndex = 3;
+// 		break;
+// 	case D_CARD_MARK_JOKER:
+// 	default:
+// 		markIndex = 4;
+// 		break;
+// 	}
+
+// 	// static const C1 *select[2] = {
+// 	// 	"Selected!",
+// 	// 	""
+// 	// };
+// 	if (mark == D_CARD_MARK_JOKER) {
+// 		printf("  <%d> [%8s :--    ]\n", index+1, strMark[markIndex]);
+// 	} else {
+// 		printf("  <%d> [%8s :%s    ]\n", index+1, strMark[markIndex], strNumber[number]);
+// 	}
+// }
 
 #define D_POKER_HAND_TYPE_MAX						(11)
 #define D_POKER_HAND_ENABLE_BIT						(0x01)

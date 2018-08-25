@@ -31,8 +31,9 @@
 typedef enum {
 	E_MAIN_GAME_QUIT,
 	E_MAIN_GAME_ROOKIE,
-	E_MAIN_GAME_ROOKIE2,
-	E_MAIN_GAME_MIDDLE,
+	E_MAIN_GAME_MIDDLE1,
+	E_MAIN_GAME_MIDDLE2,
+	E_MAIN_GAME_MIDDLE3,
 	E_MAIN_GAME_LEGEND,
 } E_MAIN_GAME_TYPE;
 
@@ -43,9 +44,11 @@ typedef enum {
 /************************************************************************************************/
 /*	内部関数プロトタイプ宣言																	*/
 /************************************************************************************************/
-static E_BOOL game_executeRookie(void);
-static E_BOOL game_executeRookiePlus(void);
 static E_MAIN_GAME_TYPE game_selectMainGame(void);
+static E_BOOL game_executeRookie(void);
+static E_BOOL game_executeMiddle1(void);
+static E_BOOL game_executeMiddle2(void);
+// static E_BOOL game_executeMiddle3(void);
 
 /************************************************************************************************/
 /*	外部公開関数																				*/
@@ -64,11 +67,11 @@ void game_start(void)
 		case E_MAIN_GAME_ROOKIE:
 			continueGame = game_executeRookie();
 			break;
-		case E_MAIN_GAME_ROOKIE2:
-			continueGame = game_executeRookiePlus();
+		case E_MAIN_GAME_MIDDLE1:
+			continueGame = game_executeMiddle1();
 			break;
-		case E_MAIN_GAME_MIDDLE:
-			continueGame = game_executeRookie();
+		case E_MAIN_GAME_MIDDLE2:
+			continueGame = game_executeMiddle2();
 			break;
 		case E_MAIN_GAME_LEGEND:
 			continueGame = game_executeRookie();
@@ -101,6 +104,7 @@ static E_MAIN_GAME_TYPE game_selectMainGame(void)
 	M_ENTRY();
 	E_MAIN_GAME_TYPE gameType = E_MAIN_GAME_QUIT;
 
+	ui_showMenuTitle(E_UI_MENU_MAIN);
 	ui_showMenu(E_UI_MENU_MAIN);
 	E_UI_SELECT_CODE selectCode = ui_getSelectCode();	
 	switch (selectCode) {
@@ -108,12 +112,15 @@ static E_MAIN_GAME_TYPE game_selectMainGame(void)
 		gameType = E_MAIN_GAME_ROOKIE;
 		break;
 	case E_UI_2:
-		gameType = E_MAIN_GAME_ROOKIE2;
+		gameType = E_MAIN_GAME_MIDDLE1;
 		break;
 	case E_UI_3:
-		gameType = E_MAIN_GAME_MIDDLE;
+		gameType = E_MAIN_GAME_MIDDLE2;
 		break;
 	case E_UI_4:
+		gameType = E_MAIN_GAME_MIDDLE3;
+		break;
+	case E_UI_5:
 		gameType = E_MAIN_GAME_LEGEND;
 		break;
 	default:
@@ -138,6 +145,7 @@ static E_BOOL game_executeRookie(void)
 	E_BOOL continueGame = E_TRUE;
 	while(continueGame == E_TRUE) {
 		/* メニュー表示 */
+		ui_showMenuTitle(E_UI_MENU_ROOKIE);
 		ui_showMenu(E_UI_MENU_ROOKIE);
 		E_UI_SELECT_CODE selectCode = ui_getSelectCode();
 		if (selectCode != E_UI_1) {
@@ -160,7 +168,8 @@ static E_BOOL game_executeRookie(void)
 		HAND_CARD handCard = player_handCard();
 		POKER_HAND judgeResult = poker_judgment(handCard);
 		/* 結果を表示する */
-		ui_showPokerResult(handCard, judgeResult);
+		ui_showHandCard(handCard);
+		ui_showPokerResult(judgeResult);
 		ui_pleaseEnterSomething();
 		/* 手札を戻す */
 		player_restoreCard();
@@ -177,13 +186,14 @@ static E_BOOL game_executeRookie(void)
  * | E_TRUE |ゲームを続ける|
  * | E_FALSE |ゲームを終了する|
  */
-static E_BOOL game_executeRookiePlus(void)
+static E_BOOL game_executeMiddle1(void)
 {
 	M_ENTRY();
 	E_BOOL continueGame = E_TRUE;
 	while(continueGame == E_TRUE) {
 		/* メニュー表示 */
-		ui_showMenu(E_UI_MENU_ROOKIE2);
+		ui_showMenuTitle(E_UI_MENU_MIDDLE1);
+		ui_showMenu(E_UI_MENU_MIDDLE1);
 		E_UI_SELECT_CODE selectCode = ui_getSelectCode();
 		if (selectCode != E_UI_1) {
 			continueGame = E_FALSE;
@@ -201,15 +211,107 @@ static E_BOOL game_executeRookiePlus(void)
 		player_receiveCard(card_deal());
 		player_receiveCard(card_deal());
 		player_receiveCard(card_deal());
-		/* 手札を出す */
+
+		E_BOOL finishSelect = E_TRUE;
+		while(finishSelect == E_TRUE) {
+			/* タイトル表示 */
+			ui_showMenuTitle(E_UI_MENU_MIDDLE1);
+			/* 手札を出す */
+			HAND_CARD handCard = player_handCard();
+			ui_showHandCard(handCard);
+			/* カード交換選択 */
+			E_UI_SELECT_CODE selectCode = ui_getSelectCode();
+			M_INFO("selectCode=%d",selectCode);
+			if ((E_UI_1 <= selectCode) && (selectCode <= E_UI_5)) {
+				U1 changeCardIndex = selectCode - 1;
+				player_selectCard(changeCardIndex);
+			} else {
+				finishSelect = E_FALSE;
+			}
+		}
+		/* カード交換 */
+		U1 changeNum = player_changeCardNum();
+		U1 i = 0;
+		for (i = 0; i < changeNum; i++) {
+			player_changeCard(card_deal());
+		}
+		/* 結果を表示する */
 		HAND_CARD handCard = player_handCard();
+		POKER_HAND judgeResult = poker_judgment(handCard);
 		ui_showHandCard(handCard);
+		ui_showPokerResult(judgeResult);
+		ui_pleaseEnterSomething();
+		/* 手札を戻す */
+		player_restoreCard();
+	}
+	return continueGame;
+}
 
+/**
+ * @brief	ミドルモード開始
+ * @note	
+ * @return
+ * |値 | 説明 |
+ * |---|------|
+ * | E_TRUE |ゲームを続ける|
+ * | E_FALSE |ゲームを終了する|
+ */
+static E_BOOL game_executeMiddle2(void)
+{
+	M_ENTRY();
+	E_BOOL continueGame = E_TRUE;
+	while(continueGame == E_TRUE) {
+		/* メニュー表示 */
+		ui_showMenuTitle(E_UI_MENU_MIDDLE2);
+		ui_showMenu(E_UI_MENU_MIDDLE2);
+		E_UI_SELECT_CODE selectCode = ui_getSelectCode();
+		if (selectCode != E_UI_1) {
+			continueGame = E_FALSE;
+			continue;
+		}
 
+		/* カードを箱から出す */
+		card_outOfBox(E_TRUE);
+		/* シャッフル */
+		card_shuffle();
+		card_shuffle();
 
-		// POKER_HAND judgeResult = poker_judgment(handCard);
-		// /* 結果を表示する */
-		// ui_showPokerResult(handCard, judgeResult);
+		/* Player1 */
+		/* カードを配って手札にする */
+		player_receiveCard(card_deal());
+		player_receiveCard(card_deal());
+		player_receiveCard(card_deal());
+		player_receiveCard(card_deal());
+		player_receiveCard(card_deal());
+
+		E_BOOL finishSelect = E_TRUE;
+		while(finishSelect == E_TRUE) {
+			/* タイトル表示 */
+			ui_showMenuTitle(E_UI_MENU_MIDDLE2);
+			/* 手札を出す */
+			HAND_CARD handCard = player_handCard();
+			ui_showHandCard(handCard);
+			/* カード交換選択 */
+			E_UI_SELECT_CODE selectCode = ui_getSelectCode();
+			M_INFO("selectCode=%d",selectCode);
+			if ((E_UI_1 <= selectCode) && (selectCode <= E_UI_5)) {
+				U1 changeCardIndex = selectCode - 1;
+				player_selectCard(changeCardIndex);
+			} else {
+				finishSelect = E_FALSE;
+			}
+		}
+		/* カード交換 */
+		U1 changeNum = player_changeCardNum();
+		U1 i = 0;
+		for (i = 0; i < changeNum; i++) {
+			player_changeCard(card_deal());
+		}
+		/* 結果を表示する */
+		HAND_CARD handCard = player_handCard();
+		POKER_HAND judgeResult = poker_judgment(handCard);
+		ui_showHandCard(handCard);
+		ui_showPokerResult(judgeResult);
 		ui_pleaseEnterSomething();
 		/* 手札を戻す */
 		player_restoreCard();

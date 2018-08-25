@@ -21,6 +21,7 @@
 /************************************************************************************************/
 /*	定義値																						*/
 /************************************************************************************************/
+#define D_PLAYER_CHANGE_CARD_MAX				(5)
 
 /************************************************************************************************/
 /*	クラス内参照メンバー変数																	*/
@@ -75,7 +76,69 @@ HAND_CARD player_handCard(void)
  */
 void player_restoreCard(void)
 {
+	M_ENTRY();
 	memset(&s_handCard, 0, sizeof(s_handCard));
+}
+
+/**
+ * @brief	取り替えたいカードを決める
+ * @note	カード取り換え情報を設定する
+ *
+ * @param[in]	cardIndex	手札の番号
+ */
+void player_selectCard(U1 cardIndex)
+{
+	M_ENTRY("cardIndex=%d",cardIndex);
+	/* すでに2枚選択中の場合は、最初から選択 */
+	U1 selectedNum = player_changeCardNum();
+	if (selectedNum >= D_PLAYER_CHANGE_CARD_MAX) {
+		memset(&(s_handCard.change), E_CARD_CHANGE_NOT_SELECT, sizeof(s_handCard.change));
+	}
+
+	if (cardIndex > s_handCard.num) {
+		M_ERROR("cardIndex Error:%d\n",cardIndex);
+	}
+	/* 指定されたカードを選択状態にする */
+	s_handCard.change[cardIndex] = E_CARD_CHANGE_SELECTED;
+}
+
+/**
+ * @brief	取り替えるカードの枚数を取得
+ * @note	カード取り換え情報の数を返す
+ *
+ * @return	入力したコード
+ */
+U1 player_changeCardNum(void)
+{
+	M_ENTRY();
+	U1 selectedNum = 0;
+	U1 i = 0;
+	for (i = 0; i < s_handCard.num; i++) {
+		if (s_handCard.change[i] == E_CARD_CHANGE_SELECTED) {
+			selectedNum ++;
+		}
+	}
+	return selectedNum;
+}
+
+/**
+ * @brief	カードを1枚取り替える
+ * @note	カード取り換え情報が選択中のカードを取り替える
+ *
+ * @param[in]	id	カード情報
+ */
+void player_changeCard(CID id)
+{
+	M_ENTRY();
+	U1 i = 0;
+	for (i = 0; i < s_handCard.num; i++) {
+		if (s_handCard.change[i] == E_CARD_CHANGE_SELECTED) {
+			s_handCard.id[i] = id;
+			s_handCard.change[i] = E_CARD_CHANGE_NOT_SELECT;
+			return;
+		}
+	}
+	M_ERROR("Not Changed");
 }
 
 /************************************************************************************************/
