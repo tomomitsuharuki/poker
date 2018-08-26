@@ -1,5 +1,8 @@
 /**
- * @brief Gamerクラスヘッダー
+ * @class Gameクラス
+ * @brief Gameクラス
+ * カードゲームの実施を行います
+ * CARD・Poker・Player・UIの各クラスを使用します
  * 
  * @file game.h
  */

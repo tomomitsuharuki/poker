@@ -1,5 +1,10 @@
 /**
- * @brief Playerクラスヘッダー
+ * @class Playerクラス
+ * @brief Playerクラス
+ * ゲームプレイヤーを管理します
+ * 対人用・COM用に対応します
+ * @note
+ * 本来は、対人用COM用に継承してインスタンス化して使用したいところです
  * 
  * @file player.h
  */

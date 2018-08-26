@@ -1,5 +1,8 @@
 /**
- * @brief Cardクラスヘッダー
+ * @class Cardクラス
+ * @brief Cardクラス
+ * トランプのカード情報を取り扱うクラス機能
+ * CARD構造体のメンバ変数を保持します
  * 
  * @file card.h
  */

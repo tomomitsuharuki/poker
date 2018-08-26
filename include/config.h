@@ -1,5 +1,9 @@
 /**
- * @brief config
+ * @class Config
+ * @brief Config
+ * このアプリ自体の振る舞いを切り替えるコンフィグレーション定義群です。
+ * 現状は以下の制御を行います
+ * - デバッグ出力の調整
  * 
  * @file config.h
  */

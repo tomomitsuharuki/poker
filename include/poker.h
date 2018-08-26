@@ -1,5 +1,8 @@
 /**
- * @brief Pokerクラスヘッダー
+ * @class Pokerクラス
+ * @brief Pokerクラス
+ * Pokerゲームの管理を行います
+ * 役の判定や勝敗を実施します
  * 
  * @file poker.h
  */

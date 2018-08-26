@@ -10,9 +10,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "common.h"
-#include "card.h"
 #include "player.h"
 #include "ui.h"
+#include "poker.h"
+#include "card.h"
 #include "system.h"
 
 /************************************************************************************************/
