@@ -14,6 +14,7 @@ ifeq "$(strip $(SRCDIR))" ""
 	SRCDIR		= .
 endif
 PRJDIR			= ./_project
+EXPDIR			= ../release
 
 #===================================
 # gcc : Exe
@@ -29,6 +30,7 @@ CMP		= "cmp"
 TEE		= "tee"
 MV		= "mv"
 DOXYGEN	= "doxygen"
+GIT		= "git"
 
 #===================================
 # OS
@@ -134,10 +136,10 @@ all: clean $(TARGET) install_bin
 # Clean
 #==============================================================================
 clean: clean_bin
-	@$(RM) -f $(TARGET)
+	$(RM) -f $(TARGET)
 
 clean_bin:
-	@$(RM) -f $(INSTALL_BIN)/$(TARGET)
+	$(RM) -f $(INSTALL_BIN)/$(TARGET)
 
 #==============================================================================
 # Build
@@ -170,3 +172,12 @@ run:
 doxygen:	
 	$(DOXYGEN) $(PRJDIR)/Doxyfile
 
+#===================================
+# Release(git export)
+#===================================
+release:	
+	$(RM) -Rf $(EXPDIR)
+	if [ ! -d $(EXPDIR) ] ; then \
+		${MKDIR} -p $(EXPDIR) ; \
+	fi ; \
+	$(GIT) checkout-index -a -f --prefix=$(EXPDIR)/poker/
