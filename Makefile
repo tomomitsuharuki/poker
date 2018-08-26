@@ -30,6 +30,24 @@ TEE		= "tee"
 MV		= "mv"
 DOXYGEN	= "doxygen"
 
+#===================================
+# OS
+#===================================
+UNAME := $(shell uname)
+
+ifeq ($(UNAME), Darwin)
+# MacOS
+CDEFINE			+= OS_MAC
+else
+ifeq ($(UNAME), Linux)
+# Linux
+CDEFINE			+= OS_LINUX
+else
+# Cygwin
+CDEFINE			+= OS_WINDOWS
+endif
+endif
+
 #==============================================================================
 # Compile Options(Common)
 #==============================================================================

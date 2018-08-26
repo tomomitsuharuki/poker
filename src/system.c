@@ -71,5 +71,11 @@ int system_random(void)
  */
 void system_clear(void)
 {
+#if (defined(OS_MAC) || (defined(OS_LINUX)))
 	system("clear");
+#elif (defined(OS_WINDOWS))
+	system("cls");
+#else
+	#error "Unkown OS..."
+#endif
 }
