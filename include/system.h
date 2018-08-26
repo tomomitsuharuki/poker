@@ -6,6 +6,11 @@
  * - 乱数生成
  * - コンソール画面クリア
  * 
+ * @attention
+ * 画面クリア処理は、system関数を使用しており、OSに依存しています。
+ * MakefileにてOS判別を行っています。
+ * ただし、Windows環境のみ動作確認できていません。
+ * 
  * @file system.h
  */
 #ifndef __SYSTEM_H__
@@ -45,7 +50,9 @@ int system_random(void);
  * @brief	画面クリア
  * @note	OSごとに制御を分ける
  * @attention
- * 
+ * 画面クリア処理は、system関数を使用しており、OSに依存しています。
+ * MakefileにてOS判別を行っています。
+ * ただし、Windows環境のみ動作確認できていません。
  */
 void system_clear(void);
 
