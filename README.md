@@ -1,5 +1,7 @@
 # poker - Readme
 
+> *本ドキュメントはMarkdown記法にそって記述しています。*
+
 ## ◆はじめに
 このアプリは、名古屋営業所の[第2回プログラムコンテスト](https://sites.google.com/a/systena.co.jp/nagoya2/ji-shu-li-xiang-shang-tui-jin-wei-yuan-hui/purokon/di2huipurokon)に基づいて作成したアプリです。  
 **作成した目的** は、今までの開発経験で得たノウハウの整理と、今後の有望な若手たちに、少しでも参考になればと、気まぐれな気分で作成しました。  
@@ -24,8 +26,7 @@ poker
 ├── README.md
 ├── Makefile
 ├── _project
-│   ├── Doxyfile
-│   └── poker.code-workspace
+│   └── Doxyfile
 ├── doc
 │   ├── poker_設計メモ.xlsx
 │   └── doxygen
@@ -56,7 +57,7 @@ poker
  - GNU Make対応のMakefileです。ビルド・実行方法は後述します。
 ### _project
  - 開発環境に関連のあるファイル格納フォルダ  
- - Doxygen設定ファイルとVisual Studio Codeのワークスペースファイルがあります。
+ - Doxygen設定ファイルがあります。
 ### bin
  - make実行後に作成され、pokerアプリの実行ファイルが置かれます。  
 ### doc
