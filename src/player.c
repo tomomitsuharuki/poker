@@ -161,9 +161,9 @@ E_UI_SELECT_CODE player_selectCardForCOM(E_PLAYER_MODE player)
 		return E_UI_OTHER;
 	}
 
-	/* レジェンドモード：AI機能 */
+	/* レジェンドモード：A.I機能 */
 	/* s_handCard[player].id[0-4] からいらないカードを選択する */
-	/* Coming Soon ... sorry */
+	/* ToDo：Coming Soon ... sorry */
 	return E_UI_OTHER;
 }
 

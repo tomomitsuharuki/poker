@@ -570,6 +570,6 @@ static E_POKER_COMP_RESULT poker_drawJudge(HAND_CARD card1, HAND_CARD card2)
 	/* Not support */
 	(void)card1;
 	(void)card2;
-	/* ごめんなさい。仕様ドロップします。 */
+	/* ToDo：ごめんなさい。仕様ドロップします。 */
 	return E_POKER_COMP_DRAW;
 }
