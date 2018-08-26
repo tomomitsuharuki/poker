@@ -7,8 +7,6 @@
 /************************************************************************************************/
 /*	インクルードファイル記載																	*/
 /************************************************************************************************/
-#include <stdio.h>
-#include <stdlib.h>
 #include "common.h"
 #include "player.h"
 #include "ui.h"
@@ -26,9 +24,6 @@
 /************************************************************************************************/
 /*	定義値																						*/
 /************************************************************************************************/
-#define D_UI_CONSOLE_BUFFER			(256)
-#define D_UI_CONSOLE_IN_ERROR		(-1)
-#define D_UI_BASE_10				(10)
 
 /************************************************************************************************/
 /*	クラス内参照メンバー変数																	*/
@@ -262,9 +257,8 @@ E_UI_SELECT_CODE ui_getSelectCode(void)
  */
 void ui_pleaseEnterSomething(void)
 {
-	char buffer[D_UI_CONSOLE_BUFFER] = {};
 	ui_out("\n\nPlease enter something.....");
-	fgets(buffer, D_UI_CONSOLE_BUFFER, stdin);
+	system_consoleWait();
 }
 
 /**
@@ -287,7 +281,7 @@ void ui_showMessageSelectCard(void)
  */
 static void ui_out(C1 *str)
 {
-	printf("%s", str);
+	system_printf("%s", str);
 }
 
 /**
@@ -299,42 +293,8 @@ static void ui_out(C1 *str)
  */
 static E_UI_SELECT_CODE ui_in(C1 *str)
 {
-	E_UI_SELECT_CODE selectCode = E_UI_ERROR;
-	char buffer[D_UI_CONSOLE_BUFFER] = {};
-
 	ui_out(str);
-	if (fgets(buffer, D_UI_CONSOLE_BUFFER, stdin) == NULL) {
-		M_ERROR("fgets is NULL\n");
-		return selectCode;
-	}
-	if (buffer[0] == '\n') {
-		selectCode = E_UI_RETURN;
-		return selectCode;
-	}
-
-	long value = strtol(buffer, NULL, D_UI_BASE_10);
-	switch (value) {
-	case 1:
-		selectCode = E_UI_1;
-		break;
-	case 2:
-		selectCode = E_UI_2;
-		break;
-	case 3:
-		selectCode = E_UI_3;
-		break;
-	case 4:
-		selectCode = E_UI_4;
-		break;
-	case 5:
-		selectCode = E_UI_5;
-		break;
-	default:
-		selectCode = E_UI_OTHER;
-		break;
-	}
-
-	return selectCode;
+	return system_consoleInput();
 }
 
 /**
@@ -353,7 +313,7 @@ static void ui_showCard(U1 index, CID id, E_CARD_CHANGE select)
 		"",
 		"Selected!",
 	};
-	printf("  <%d> [%8s :%s    ]  %s\n", index+1, card_mark(id), card_number(id), selectStr[select]);
+	system_printf("  <%d> [%8s :%s    ]  %s\n", index+1, card_mark(id), card_number(id), selectStr[select]);
 }
 
 /**

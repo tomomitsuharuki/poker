@@ -29,7 +29,6 @@ typedef unsigned long long	U8;
  */
 /*@{*/
 typedef U1					CID;			/**< Card ID */
-// typedef U2					POKER_HAND;		/**< Pokerの役 */
 /*@}*/
 
 /**
@@ -67,6 +66,7 @@ typedef enum {
 	E_UI_MENU_MIDDLE2,		/**< ミドル2メニュー */
 	E_UI_MENU_MIDDLE3,		/**< ミドル3メニュー */
 	E_UI_MENU_LEGEND,		/**< レジェンドメニュー */
+	E_UI_MENU_OTHER,		/**< Other */
 } E_UI_MENU;
 
 /**

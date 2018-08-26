@@ -24,18 +24,6 @@
 /************************************************************************************************/
 /*	定義値																						*/
 /************************************************************************************************/
-/**
- * @enum	E_MAIN_GAME_TYPE
- * @brief	Bool型
- */
-typedef enum {
-	E_MAIN_GAME_QUIT,
-	E_MAIN_GAME_ROOKIE,
-	E_MAIN_GAME_MIDDLE1,
-	E_MAIN_GAME_MIDDLE2,
-	E_MAIN_GAME_MIDDLE3,
-	E_MAIN_GAME_LEGEND,
-} E_MAIN_GAME_TYPE;
 
 /************************************************************************************************/
 /*	クラス内参照メンバー変数																	*/
@@ -44,7 +32,7 @@ typedef enum {
 /************************************************************************************************/
 /*	内部関数プロトタイプ宣言																	*/
 /************************************************************************************************/
-static E_MAIN_GAME_TYPE game_selectMainGame(void);
+static E_UI_MENU game_selectMainGame(void);
 static E_BOOL game_executeRookie(void);
 static E_BOOL game_executeMiddle1(void);
 static E_BOOL game_executeGame(E_UI_MENU gameMode, E_PLAYER_MODE player1, E_PLAYER_MODE player2, E_BOOL withJoker);
@@ -64,15 +52,15 @@ void game_start(void)
 	M_ENTRY();
 	E_BOOL continueGame = E_TRUE;
 	while(continueGame == E_TRUE) {
-		E_MAIN_GAME_TYPE gameType = game_selectMainGame();
+		E_UI_MENU gameType = game_selectMainGame();
 		switch (gameType) {
-		case E_MAIN_GAME_ROOKIE:
+		case E_UI_MENU_ROOKIE:
 			continueGame = game_executeRookie();
 			break;
-		case E_MAIN_GAME_MIDDLE1:
+		case E_UI_MENU_MIDDLE1:
 			continueGame = game_executeMiddle1();
 			break;
-		case E_MAIN_GAME_MIDDLE2:
+		case E_UI_MENU_MIDDLE2:
 		{
 			E_UI_MENU gameMode = E_UI_MENU_MIDDLE2;
 			E_PLAYER_MODE player1 = E_PLAYER_1;
@@ -80,7 +68,7 @@ void game_start(void)
 			E_BOOL withJoker = E_FALSE;
 			continueGame = game_executeGame(gameMode, player1, player2, withJoker);
 		} break;
-		case E_MAIN_GAME_MIDDLE3:
+		case E_UI_MENU_MIDDLE3:
 		{
 			E_UI_MENU gameMode = E_UI_MENU_MIDDLE3;
 			E_PLAYER_MODE player1 = E_PLAYER_1;
@@ -88,7 +76,7 @@ void game_start(void)
 			E_BOOL withJoker = E_FALSE;
 			continueGame = game_executeGame(gameMode, player1, player2, withJoker);
 		} break;
-		case E_MAIN_GAME_LEGEND:
+		case E_UI_MENU_LEGEND:
 		{
 			E_UI_MENU gameMode = E_UI_MENU_LEGEND;
 			E_PLAYER_MODE player1 = E_PLAYER_1;
@@ -96,7 +84,7 @@ void game_start(void)
 			E_BOOL withJoker = E_TRUE;
 			continueGame = game_executeGame(gameMode, player1, player2, withJoker);
 		} break;
-		case E_MAIN_GAME_QUIT:
+		case E_UI_MENU_OTHER:
 		default:
 			continueGame = E_FALSE;
 			break;
@@ -119,32 +107,32 @@ void game_start(void)
  * | E_MAIN_GAME_LEGEND |レジェンド|
  * | E_MAIN_GAME_QUIT; |ゲームを終了する|
  */
-static E_MAIN_GAME_TYPE game_selectMainGame(void)
+static E_UI_MENU game_selectMainGame(void)
 {
 	M_ENTRY();
-	E_MAIN_GAME_TYPE gameType = E_MAIN_GAME_QUIT;
+	E_UI_MENU gameType = E_UI_MENU_OTHER;
 
 	ui_showMenuTitle(E_UI_MENU_MAIN);
 	ui_showMenu(E_UI_MENU_MAIN);
 	E_UI_SELECT_CODE selectCode = ui_getSelectCode();	
 	switch (selectCode) {
 	case E_UI_1:
-		gameType = E_MAIN_GAME_ROOKIE;
+		gameType = E_UI_MENU_ROOKIE;
 		break;
 	case E_UI_2:
-		gameType = E_MAIN_GAME_MIDDLE1;
+		gameType = E_UI_MENU_MIDDLE1;
 		break;
 	case E_UI_3:
-		gameType = E_MAIN_GAME_MIDDLE2;
+		gameType = E_UI_MENU_MIDDLE2;
 		break;
 	case E_UI_4:
-		gameType = E_MAIN_GAME_MIDDLE3;
+		gameType = E_UI_MENU_MIDDLE3;
 		break;
 	case E_UI_5:
-		gameType = E_MAIN_GAME_LEGEND;
+		gameType = E_UI_MENU_LEGEND;
 		break;
 	default:
-		gameType = E_MAIN_GAME_QUIT;
+		gameType = E_UI_MENU_OTHER;
 		break;
 	}
 	return gameType;
@@ -242,6 +230,7 @@ static E_BOOL game_executeMiddle1(void)
 			HAND_CARD handCard = player_handCard(single);
 			ui_showHandCard(handCard);
 			/* カード交換選択 */
+			ui_showMessageSelectCard();
 			E_UI_SELECT_CODE selectCode = ui_getSelectCode();
 			M_INFO("selectCode=%d",selectCode);
 			if ((E_UI_1 <= selectCode) && (selectCode <= E_UI_5)) {
@@ -269,7 +258,7 @@ static E_BOOL game_executeMiddle1(void)
 	return continueGame;
 }
 
-#if 0
+#if 0 // リファクタリングして不要になりましたが、残しておきます。
 /**
  * @brief	ミドルモード開始
  * @note	

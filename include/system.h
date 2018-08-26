@@ -47,6 +47,36 @@ void system_random_init(void);
 int system_random(void);
 
 /**
+ * @brief	メモリ初期化
+ *
+ */
+void system_memset(void *ptr, U1 value, U4 len);
+
+/**
+ * @brief	コンソール出力
+ * @note	printfラッパー
+ *
+ * @param[in]	出力文字列
+ */
+void system_printf(const char *format, ...);
+
+/**
+ * @brief	コンソール入力
+ * @note	ユーザー入力待ち状態
+ *
+ * @return	入力したコード
+ */
+E_UI_SELECT_CODE system_consoleInput(void);
+
+/**
+ * @brief	コンソール入力待ち
+ * @note	ユーザー入力待ち状態
+ *
+ */
+void system_consoleWait(void);
+
+
+/**
  * @brief	画面クリア
  * @note	OSごとに制御を分ける
  * @attention

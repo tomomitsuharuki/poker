@@ -7,9 +7,9 @@
 /************************************************************************************************/
 /*	インクルードファイル記載																	*/
 /************************************************************************************************/
-#include <string.h>
 #include "common.h"
 #include "player.h"
+#include "system.h"
 
 /************************************************************************************************/
 /*	クラス内デバッグ設定																		*/
@@ -80,7 +80,7 @@ HAND_CARD player_handCard(E_PLAYER_MODE player)
 void player_restoreCard(E_PLAYER_MODE player)
 {
 	M_ENTRY();
-	memset(&s_handCard[player], 0, sizeof(s_handCard[player]));
+	system_memset(&s_handCard[player], 0, sizeof(s_handCard[player]));
 }
 
 /**

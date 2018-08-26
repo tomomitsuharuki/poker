@@ -22,24 +22,8 @@
 /************************************************************************************************/
 /*	定義値																						*/
 /************************************************************************************************/
-/** @name ポーカーの役
- */
-/*@{*/
-// #define D_POKER_HAND_ROYAL_STRAIGHT_FLASH			(1<<0)
-// #define D_POKER_HAND_FIVE_CARD						(1<<1)
-// #define D_POKER_HAND_STRAIGHT_FLASH					(1<<2)
-// #define D_POKER_HAND_FOUR_CARD						(1<<3)
-// #define D_POKER_HAND_FULL_HOUSE						(1<<4)
-// #define D_POKER_HAND_FLASH							(1<<5)
-// #define D_POKER_HAND_STRAIGHT						(1<<6)
-// #define D_POKER_HAND_THREE_CARD						(1<<7)
-// #define D_POKER_HAND_TWO_PAIR						(1<<8)
-// #define D_POKER_HAND_ONE_PAIR						(1<<9)
-// #define D_POKER_HAND_BUHI							(0x00)
-// #define D_POKER_HAND_TYPE_MAX						(11)
-/*@}*/
-
 /** @name ロイヤルストレートフラッシュ判定のしきい値
+ * @note	poker_設計メモ.xlsx参照
  */
 /*@{*/
 #define D_POKER_JUDGE_ROYAL_STRAIGHT_FLASH_WITHOUT_J	(55)
