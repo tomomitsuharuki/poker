@@ -38,4 +38,5 @@
 
 #Other
 .DS_Store
+*.code-workspace
 
